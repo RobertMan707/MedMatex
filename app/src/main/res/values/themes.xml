@@ -1,0 +1,10 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.MedMate" parent="Theme.Material3.DayNight.NoActionBar">
+      <item name="android:windowContentTransitions">true</item>
+    </style>
+    <style name="Button.NoRadius" parent="Widget.MaterialComponents.Button">
+        <item name="cornerRadius">0dp</item>
+    </style>
+    <style name="Theme.MedMate" parent="Base.Theme.MedMate" />
+</resources>

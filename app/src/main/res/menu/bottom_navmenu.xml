@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Home Activity Icon -->
+    <item
+        android:id="@+id/nav_home"
+        android:title="Home"
+        android:icon="@drawable/baseline_home_24"
+        android:orderInCategory="100" />
+
+    <!-- Add Medicine Icon -->
+    <item
+        android:id="@+id/nav_add"
+        android:title="Add Medicine"
+        android:icon="@drawable/baseline_add_24"
+        android:orderInCategory="101" />
+
+    <!-- Chest Activity Icon -->
+    <item
+        android:id="@+id/nav_chest"
+        android:title="Chest"
+        android:icon="@drawable/baseline_business_center_24"
+        android:orderInCategory="102" />
+
+    <!-- Profile Activity Icon -->
+    <item
+        android:id="@+id/nav_profile"
+        android:title="Profile"
+        android:icon="@drawable/baseline_account_circle_24"
+        android:orderInCategory="103"
+/>
+
+</menu>
