@@ -73,7 +73,19 @@
                 android:layout_height="wrap_content"
                 android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
-
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+        <CheckBox
+            android:id="@+id/remember_me"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Remember Me"
+            android:textColor="@color/black"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="start"
+            />
         <Button
             android:id="@+id/forgotPassword"
             android:layout_width="wrap_content"
@@ -82,8 +94,10 @@
             android:text="Forgot Password?"
             android:background="?attr/selectableItemBackground"
             android:textColor="@color/black"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="200dp"/>
 
+    </RelativeLayout>
         <Button
             android:id="@+id/signInButton"
             android:layout_width="match_parent"
@@ -94,8 +108,17 @@
             android:text="Sign in"
             android:textColor="@color/white"
             android:transitionName="button_tran" />
-
         <Button
+            android:id="@+id/google_auth"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/blue"
+            android:text="Sign In With Google"
+          android:drawableLeft="@drawable/google_icon"
+            android:textColor="@color/white"
+            android:transitionName="login_signup_tran"/>
+        <Button
+            android:layout_marginVertical="10dp"
             android:id="@+id/login_signup_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

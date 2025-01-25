@@ -62,7 +62,7 @@ public class Signup extends AppCompatActivity {
         // Navigate to Login screen
         regToLoginBtn.setOnClickListener(v -> {
             Intent intent = new Intent(Signup.this, Login.class);
-            Pair[] pairs = new Pair[]{
+            Pair[] pairs = new Pair[] {
                     new Pair<>(image, "logo_image"),
                     new Pair<>(logoText, "logo_text"),
                     new Pair<>(sloganText, "signInText"),
@@ -103,18 +103,16 @@ public class Signup extends AppCompatActivity {
         reference.child(username).setValue(helperClass)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        // Show a message (optional)
-
-
-                        // After successful registration, go to Login screen
-                        Intent intent = new Intent(Signup.this, Login.class);
+                        // After successful registration, navigate to Email Verification Activity
+                        Intent intent = new Intent(Signup.this, EmailVerification.class);
+                        intent.putExtra("email", email); // Pass the email for verification
                         startActivity(intent);
                         finish(); // Close the current Signup activity so the user can't go back to it
                     }
                 });
     }
 
-
+    // Validation methods
     private Boolean validateName() {
         String val = regName.getEditText() != null ? regName.getEditText().getText().toString().trim() : "";
         if (val.isEmpty()) {
