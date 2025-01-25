@@ -7,14 +7,14 @@
     android:layout_height="match_parent"
     tools:context=".Signup"
     android:orientation="vertical"
-    android:background="#acbac3"
+    android:background="#ccecee"
     android:padding="5dp"
     android:paddingLeft="20dp">
 
     <ImageView
         android:id="@+id/logo_image"
-        android:layout_width="125dp"
-        android:layout_height="125dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:src="@drawable/mymed"
         android:transitionName="logo_image"
         android:layout_marginLeft="10dp"/>

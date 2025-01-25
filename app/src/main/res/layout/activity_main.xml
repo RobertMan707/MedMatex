@@ -5,11 +5,12 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#aabac4"
+    android:background="#ccecee"
     tools:context=".MainActivity">
 
     <ImageView
         android:id="@+id/mymed"
+        android:elevation="100dp"
         android:layout_width="400dp"
         android:layout_height="400dp"
         android:layout_marginTop="100dp"

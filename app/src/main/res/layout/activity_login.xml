@@ -6,7 +6,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#acbac3"
+    android:background="#ccecee"
     android:orientation="vertical"
     android:padding="20dp"
     tools:context=".Login">
@@ -16,7 +16,8 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:transitionName="logo_image"
-        android:src="@drawable/mymed" />
+        android:src="@drawable/mymed"
+        android:elevation="100dp"/>
 
     <TextView
         android:id="@+id/logo_text"

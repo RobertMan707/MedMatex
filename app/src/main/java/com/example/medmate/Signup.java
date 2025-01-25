@@ -104,7 +104,7 @@ public class Signup extends AppCompatActivity {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         // After successful registration, navigate to Email Verification Activity
-                        Intent intent = new Intent(Signup.this, EmailVerification.class);
+                        Intent intent = new Intent(Signup.this, Login.class);
                         intent.putExtra("email", email); // Pass the email for verification
                         startActivity(intent);
                         finish(); // Close the current Signup activity so the user can't go back to it

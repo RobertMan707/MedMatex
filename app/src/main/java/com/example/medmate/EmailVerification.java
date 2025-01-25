@@ -1,5 +1,6 @@
 package com.example.medmate;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,9 +20,10 @@ public class EmailVerification extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private EditText codeInput;
     private Button verifyButton;
-    private TextView resendCodeText;
+    private Button resendCodeText;
     private String verificationCode;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +35,7 @@ public class EmailVerification extends AppCompatActivity {
         // UI Components
         codeInput = findViewById(R.id.codeInput);
         verifyButton = findViewById(R.id.verifyButton);
-        resendCodeText = findViewById(R.id.resendCodeText);
+        resendCodeText = findViewById(R.id.resend_btn);
 
         // Generate a random 6-digit code and send it via email
         generateVerificationCode();
@@ -55,14 +57,13 @@ public class EmailVerification extends AppCompatActivity {
         FirebaseUser user = mAuth.getCurrentUser();
 
         if (user != null) {
-            // Send the verification code via email (this example uses a Firebase function to send an email)
+
             String email = user.getEmail();
 
-            // You can use Firebase Functions or your custom backend to send the email with the verification code.
-            // Example: FirebaseFunctions.getInstance().sendVerificationCode(email, verificationCode);
+
 
             Log.d("EmailVerification", "Sending code to: " + email);
-            // For now, simulate the code being sent by just logging it.
+
             Toast.makeText(this, "Code sent to your email!", Toast.LENGTH_SHORT).show();
         }
     }
