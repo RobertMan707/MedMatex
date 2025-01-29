@@ -1,66 +1,24 @@
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#ccecee">
 
+    <!-- Your main content here -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="160dp"
-        android:orientation="horizontal"
-        android:padding="5dp"
-        tools:ignore="MissingConstraints">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:src="@drawable/mymed"
-            />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:fontFamily="@font/abril_fatface"
-            android:textColor="#09a5a0"
-            android:text="MedMate"
-            android:textSize="50dp" />
+        <!-- Add your content (TextViews, Buttons, etc.) -->
 
     </LinearLayout>
 
-    <!-- Centered TextView -->
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Click on Button to Start your Journey!"
-        android:textColor="#09a5a0"
-        android:textSize="24sp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-    <!-- Button positioned below the TextView -->
-    <Button
-        android:id="@+id/add_Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ADD Medicine"
-        android:backgroundTint="#0b3456"
-        app:layout_constraintTop_toBottomOf="@id/textView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"/>
-
-    <!-- Bottom Navigation -->
+    <!-- Bottom Navigation Menu -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:menu="@menu/bottom_navmenu"
         app:layout_constraintBottom_toBottomOf="parent" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
