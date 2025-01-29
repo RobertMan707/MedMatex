@@ -51,10 +51,10 @@ public class Login extends AppCompatActivity {
         // Initialize SharedPreferences
         sharedPreferences = getSharedPreferences("loginPrefs", Context.MODE_PRIVATE);
 
-        // Load saved credentials if Remember Me was enabled
-        loadRememberedCredentials();
+        // Check if user is already logged in
+        checkAutoLogin();
 
-        // Set up Sign-Up button with animation (optional)
+        // Set up Sign-Up button
         callSignUp.setOnClickListener(v -> {
             Intent intent = new Intent(Login.this, Signup.class);
             startActivity(intent);
@@ -64,16 +64,12 @@ public class Login extends AppCompatActivity {
         login_btn.setOnClickListener(this::loginUser);
     }
 
-    // Load saved credentials
-    private void loadRememberedCredentials() {
-        String savedEmail = sharedPreferences.getString("email", "");
-        String savedPassword = sharedPreferences.getString("password", "");
-        boolean isRemembered = sharedPreferences.getBoolean("rememberMe", false);
-
-        if (isRemembered) {
-            mail.getEditText().setText(savedEmail);
-            password.getEditText().setText(savedPassword);
-            rememberMe.setChecked(true);
+    // Check if user should be automatically logged in
+    private void checkAutoLogin() {
+        boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
+        if (isLoggedIn) {
+            String savedEmail = sharedPreferences.getString("email", "");
+            navigateToProfile(savedEmail);
         }
     }
 
@@ -132,18 +128,13 @@ public class Login extends AppCompatActivity {
                             String nameDB = userSnapshot.child("name").getValue(String.class);
                             String emailDB = userSnapshot.child("email").getValue(String.class);
 
-                            // Save credentials if Remember Me is checked
+                            // Save login state if Remember Me is checked
                             if (rememberMe.isChecked()) {
-                                saveCredentials(userEmail, userPassword);
-                            } else {
-                                clearSavedCredentials();
+                                saveLoginState(userEmail);
                             }
 
-                            // Navigate to Profile activity with user data
-                            Intent intent = new Intent(getApplicationContext(), Profile.class);
-                            intent.putExtra("name", nameDB);
-                            intent.putExtra("email", emailDB);
-                            startActivity(intent);
+                            // Navigate to Profile
+                            navigateToProfile(emailDB);
                             return;
                         }
                     }
@@ -164,19 +155,19 @@ public class Login extends AppCompatActivity {
         });
     }
 
-    // Save credentials in SharedPreferences
-    private void saveCredentials(String email, String password) {
+    // Save login state in SharedPreferences
+    private void saveLoginState(String email) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("email", email);
-        editor.putString("password", password);
-        editor.putBoolean("rememberMe", true);
+        editor.putBoolean("isLoggedIn", true);
         editor.apply();
     }
 
-    // Clear saved credentials from SharedPreferences
-    private void clearSavedCredentials() {
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear();
-        editor.apply();
+    // Navigate to Profile activity
+    private void navigateToProfile(String email) {
+        Intent intent = new Intent(getApplicationContext(), Profile.class);
+        intent.putExtra("email", email);
+        startActivity(intent);
+        finish(); // Prevents going back to login screen
     }
 }
