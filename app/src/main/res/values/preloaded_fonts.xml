@@ -7,8 +7,11 @@
         <item>@font/baloo_2</item>
         <item>@font/bangers</item>
         <item>@font/bungee</item>
+        <item>@font/cinzel_medium</item>
         <item>@font/nunito</item>
+        <item>@font/playfair_display_bold</item>
         <item>@font/quicksand_light</item>
+        <item>@font/raleway_medium</item>
         <item>@font/ubuntu_italic</item>
         <item>@font/ubuntu_light</item>
     </array>

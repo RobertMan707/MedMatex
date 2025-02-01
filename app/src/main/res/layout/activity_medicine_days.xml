@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select Days and Frequency"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginBottom="20dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Days of the Week"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="10dp"/>
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="3"
+            android:rowCount="3"
+            android:layout_marginBottom="20dp"
+            android:padding="5dp"
+            android:orientation="horizontal">
+
+            <ToggleButton
+                android:id="@+id/toggleMonday"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:textOn="Mon"
+                android:textOff="Mon"/>
+
+            <ToggleButton
+                android:id="@+id/toggleTuesday"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:textOn="Tue"
+                android:textOff="Tue"/>
+
+            <ToggleButton
+                android:id="@+id/toggleWednesday"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:textOn="Wed"
+                android:textOff="Wed"/>
+
+            <ToggleButton
+                android:id="@+id/toggleThursday"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:textOn="Thu"
+                android:textOff="Thu"/>
+
+            <ToggleButton
+                android:id="@+id/toggleFriday"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:textOn="Fri"
+                android:textOff="Fri"/>
+
+            <ToggleButton
+                android:id="@+id/toggleSaturday"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:textOn="Sat"
+                android:textOff="Sat"/>
+
+            <ToggleButton
+                android:id="@+id/toggleSunday"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:textOn="Sun"
+                android:textOff="Sun"/>
+        </GridLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select Frequency"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="10dp"/>
+
+        <RadioGroup
+            android:id="@+id/radioGroupFrequency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="20dp">
+
+            <RadioButton
+                android:id="@+id/radioOnce"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Once per day"/>
+
+            <RadioButton
+                android:id="@+id/radioTwice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Twice per day"/>
+
+            <RadioButton
+                android:id="@+id/radioThrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Three times per day"/>
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/btnNext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Next"
+            android:layout_marginTop="30dp"
+            android:textColor="@android:color/white"/>
+    </LinearLayout>
+</ScrollView>

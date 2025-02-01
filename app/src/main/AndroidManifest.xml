@@ -13,6 +13,21 @@
         android:theme="@style/Theme.MedMate"
         tools:targetApi="31">
         <activity
+            android:name=".MedicineTime"
+            android:exported="false" />
+        <activity
+            android:name=".MedicineMeal"
+            android:exported="false" />
+        <activity
+            android:name=".MedicineDays"
+            android:exported="false" />
+        <activity
+            android:name=".MedicineName"
+            android:exported="false" />
+        <activity
+            android:name=".TypeMedicine"
+            android:exported="false" />
+        <activity
             android:name=".forgotPassword"
             android:exported="false" />
         <activity

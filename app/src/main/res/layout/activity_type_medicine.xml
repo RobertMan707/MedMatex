@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <TextView
+        android:id="@+id/titleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Medicine Type"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginBottom="20dp"/>
+
+    <Button
+        android:id="@+id/btnPill"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Pill/Tablet"
+        android:textColor="@android:color/white"
+        android:layout_marginBottom="10dp"/>
+
+    <Button
+        android:id="@+id/btnCapsule"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Capsule"
+        android:textColor="@android:color/white"
+        android:layout_marginBottom="10dp"/>
+
+    <Button
+        android:id="@+id/btnLiquid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Liquid/Syrup"
+        android:textColor="@android:color/white"
+        android:layout_marginBottom="10dp"/>
+
+    <Button
+        android:id="@+id/btnDrops"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Drops (Eye/Ear/Nasal)"
+        android:textColor="@android:color/white"
+        android:layout_marginBottom="10dp"/>
+
+    <Button
+        android:id="@+id/btnTopical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Topical (Cream/Ointment)"
+        android:textColor="@android:color/white"
+        android:layout_marginBottom="20dp"/>
+
+    <Button
+        android:id="@+id/btnNext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Next"
+        android:textColor="@android:color/white"/>
+</LinearLayout>

@@ -3,6 +3,8 @@ package com.example.medmate;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +14,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class AddActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNav;
+    Button addButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,8 +22,6 @@ public class AddActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add);
 
         bottomNav = findViewById(R.id.nav_menu);
-
-        // Select the Add Medicine menu item by default
         bottomNav.setSelectedItemId(R.id.nav_add);
 
         bottomNav.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
@@ -33,7 +34,7 @@ public class AddActivity extends AppCompatActivity {
                     overridePendingTransition(0, 0);
                     return true;
                 } else if (itemId == R.id.nav_add) {
-                    return true;  // Stay in AddMedicineActivity
+                    return true;  // Stay in AddActivity
                 } else if (itemId == R.id.nav_chest) {
                     startActivity(new Intent(AddActivity.this, ChestActivity.class));
                     overridePendingTransition(0, 0);
@@ -44,6 +45,19 @@ public class AddActivity extends AppCompatActivity {
                     return true;
                 }
                 return false;
+            }
+        });
+
+
+        addButton = findViewById(R.id.add_button);
+
+
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Navigate to the first question activity (e.g., MedicineTypeActivity)
+                Intent intent = new Intent(AddActivity.this, TypeMedicine.class);
+                startActivity(intent);
             }
         });
     }

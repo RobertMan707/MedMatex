@@ -6,43 +6,54 @@
     android:layout_height="match_parent"
     android:background="#ccecee">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="5dp">
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        tools:ignore="MissingConstraints">
 
         <ImageView
+            android:id="@+id/medImage"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:src="@drawable/mymed" />
-    </LinearLayout>
 
-    <!-- Centered TextView -->
+        <TextView
+            android:textColor="#0b9e9c"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/medImage"
+            android:layout_centerVertical="true"
+            android:fontFamily="@font/playfair_display_bold"
+            android:text="MedMate"
+            android:textSize="50sp" />
+    </RelativeLayout>
+
+
+
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/add_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Click on Button to Start your Journey!"
+        android:text="Click on Button to Add new Medicines!"
         android:textColor="#09a5a0"
-        android:textSize="24sp"
+        android:textSize="23sp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- Button positioned below the TextView -->
     <Button
-        android:id="@+id/startButton"
+        android:id="@+id/add_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Start"
-        app:layout_constraintTop_toBottomOf="@id/textView"
+        android:text="Add"
+        android:backgroundTint="#063970"
+        app:layout_constraintTop_toBottomOf="@id/add_text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp"/>
 
-    <!-- Bottom Navigation -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_menu"
         android:layout_width="match_parent"
