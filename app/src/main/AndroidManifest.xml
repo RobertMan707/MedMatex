@@ -13,11 +13,12 @@
         android:theme="@style/Theme.MedMate"
         tools:targetApi="31">
         <activity
-            android:name=".MedicineTime"
+            android:name=".MedicineStockActivity"
             android:exported="false" />
         <activity
-            android:name=".MedicineMeal"
+            android:name=".MedicineTime"
             android:exported="false" />
+
         <activity
             android:name=".MedicineDays"
             android:exported="false" />

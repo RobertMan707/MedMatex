@@ -10,7 +10,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <!-- Profile info layout -->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="300dp"
@@ -45,14 +44,12 @@
                 android:layout_marginLeft="40dp"/>
         </RelativeLayout>
 
-        <!-- Other profile details -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="20dp"
             android:layout_marginTop="-100dp">
 
-            <!-- Cards for medicine balance and chests -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="0dp"
                 android:layout_height="125dp"
@@ -136,7 +133,6 @@
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
 
-        <!-- Profile Edit Fields -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -180,7 +176,6 @@
         </LinearLayout>
     </LinearLayout>
 
-    <!-- Bottom Navigation Menu -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_menu"
         android:layout_width="match_parent"

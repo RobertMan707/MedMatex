@@ -22,7 +22,6 @@ public class MedicineDays extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_medicine_days);
 
-        // Initialize views
         toggleMonday = findViewById(R.id.toggleMonday);
         toggleTuesday = findViewById(R.id.toggleTuesday);
         toggleWednesday = findViewById(R.id.toggleWednesday);
@@ -33,7 +32,6 @@ public class MedicineDays extends AppCompatActivity {
         radioGroupFrequency = findViewById(R.id.radioGroupFrequency);
         btnNext = findViewById(R.id.btnNext);
 
-        // Set the listener for the Next button
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -41,7 +39,6 @@ public class MedicineDays extends AppCompatActivity {
                 int selectedFrequencyId = radioGroupFrequency.getCheckedRadioButtonId();
                 RadioButton selectedFrequency = findViewById(selectedFrequencyId);
 
-                // Validation for selected days and frequency
                 if (selectedDays.isEmpty()) {
                     Toast.makeText(MedicineDays.this, "Please select at least one day.", Toast.LENGTH_SHORT).show();
                 } else if (selectedFrequency == null) {
@@ -49,8 +46,12 @@ public class MedicineDays extends AppCompatActivity {
                 } else {
                     String frequency = selectedFrequency.getText().toString();
 
-                    // Pass the selected days and frequency to the next activity
+                    String medicineName = getIntent().getStringExtra("medicineName");
+                    String medicineType = getIntent().getStringExtra("medicineType");
+
                     Intent intent = new Intent(MedicineDays.this, MedicineTime.class);
+                    intent.putExtra("medicineName", medicineName);
+                    intent.putExtra("medicineType", medicineType);
                     intent.putExtra("selectedDays", selectedDays);
                     intent.putExtra("frequency", frequency);
                     startActivity(intent);
@@ -59,11 +60,9 @@ public class MedicineDays extends AppCompatActivity {
         });
     }
 
-    // Method to get selected days
     private String getSelectedDays() {
         StringBuilder selectedDays = new StringBuilder();
 
-        // Check which days are selected
         if (toggleMonday.isChecked()) selectedDays.append("Monday, ");
         if (toggleTuesday.isChecked()) selectedDays.append("Tuesday, ");
         if (toggleWednesday.isChecked()) selectedDays.append("Wednesday, ");
@@ -72,7 +71,6 @@ public class MedicineDays extends AppCompatActivity {
         if (toggleSaturday.isChecked()) selectedDays.append("Saturday, ");
         if (toggleSunday.isChecked()) selectedDays.append("Sunday, ");
 
-        // Remove the trailing comma and space if days are selected
         if (selectedDays.length() > 0) {
             selectedDays.setLength(selectedDays.length() - 2);
         }

@@ -56,10 +56,5 @@
         android:textColor="@android:color/white"
         android:layout_marginBottom="20dp"/>
 
-    <Button
-        android:id="@+id/btnNext"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Next"
-        android:textColor="@android:color/white"/>
+
 </LinearLayout>

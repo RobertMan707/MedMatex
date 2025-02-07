@@ -17,7 +17,6 @@
         android:gravity="center"
         android:layout_marginBottom="20dp"/>
 
-    <!-- LinearLayout to hold dynamic TimePickers -->
     <LinearLayout
         android:id="@+id/timePickerLayout"
         android:layout_width="match_parent"

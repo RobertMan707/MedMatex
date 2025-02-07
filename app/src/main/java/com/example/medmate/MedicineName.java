@@ -26,8 +26,10 @@ public class MedicineName extends AppCompatActivity {
             public void onClick(View v) {
                 String medicineName = medicineNameEditText.getText().toString();
                 if (!medicineName.isEmpty()) {
+                    String medicineType = getIntent().getStringExtra("medicineType");
                     Intent intent = new Intent(MedicineName.this, MedicineDays.class);
                     intent.putExtra("medicineName", medicineName);
+                    intent.putExtra("medicineType", medicineType);
                     startActivity(intent);
                 }
             }

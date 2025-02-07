@@ -21,66 +21,65 @@ public class MedicineTime extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_medicine_time);
 
-        timePickerLayout = findViewById(R.id.timePickerLayout); // Corrected to match layout ID
+        timePickerLayout = findViewById(R.id.timePickerLayout);
         nextButton = findViewById(R.id.btnNext);
 
-        // Get frequency from the previous activity (MedicineDays)
         String frequency = getIntent().getStringExtra("frequency");
-        updateTimePickers(frequency); // Initialize time pickers based on frequency
+        String medicineName = getIntent().getStringExtra("medicineName");
+        String medicineType = getIntent().getStringExtra("medicineType");
+        updateTimePickers(frequency);
 
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // You can pass data to the Home activity, if necessary
-                Intent intent = new Intent(MedicineTime.this, Home.class);
+                Intent intent = new Intent(MedicineTime.this, MedicineStockActivity.class);
+                intent.putExtra("medicineName", medicineName);
+                intent.putExtra("medicineType", medicineType);
+                intent.putExtra("frequency", frequency);
                 startActivity(intent);
             }
         });
     }
 
-    // This method updates the TimePicker views based on frequency selected
     private void updateTimePickers(String frequency) {
-        // Clear previous time pickers
         timePickerLayout.removeAllViews();
 
-        int freqCount = 1; // Default to once per day
-        int height = 1000; // Default height for "Once per day"
-        int width = LinearLayout.LayoutParams.MATCH_PARENT; // Default width (full width)
+        int freqCount = 1;
+        int height = 1000;
+        int width = LinearLayout.LayoutParams.MATCH_PARENT;
 
         if (frequency != null) {
             switch (frequency) {
                 case "Twice per day":
                     freqCount = 2;
-                    height = 1000; // Height for "Twice per day"
-                    width = 800; // Set a smaller width for "Twice per day"
+                    height = 1000;
+                    width = 800;
                     break;
                 case "Three times per day":
                     freqCount = 3;
-                    height = 1000; // Height for "Three times per day"
-                    width = 600; // Set a smaller width for "Three times per day"
+                    height = 1000;
+                    width = 600;
                     break;
                 default:
                     freqCount = 1;
-                    height = 1000; // Height for "Once per day"
-                    width = LinearLayout.LayoutParams.MATCH_PARENT; // Default width (full width)
+                    height = 1000;
+                    width = LinearLayout.LayoutParams.MATCH_PARENT;
                     break;
             }
         }
 
-        // Add dynamic TimePickers based on frequency
         for (int i = 0; i < freqCount; i++) {
             TimePicker timePicker = new TimePicker(this);
-            timePicker.setId(View.generateViewId()); // Unique ID for each TimePicker
-            timePicker.setIs24HourView(true); // Set 24-hour format
+            timePicker.setId(View.generateViewId());
+            timePicker.setIs24HourView(true);
 
-            // Set custom width and height based on frequency
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                    width,  // Dynamic width based on frequency
-                    height  // Dynamic height based on frequency
+                    width,
+                    height
             );
-            timePicker.setLayoutParams(params); // Apply the size
+            timePicker.setLayoutParams(params);
 
-            timePickerLayout.addView(timePicker); // Add TimePicker to layout
+            timePickerLayout.addView(timePicker);
         }
     }
 }
