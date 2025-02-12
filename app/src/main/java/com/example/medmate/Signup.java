@@ -19,6 +19,16 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Random;
+import java.util.Properties;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
 public class Signup extends AppCompatActivity {
 
     ImageView image;
@@ -32,21 +42,8 @@ public class Signup extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up); // Only call once
+        setContentView(R.layout.activity_sign_up);
 
-        // Remove the EdgeToEdge logic unless necessary and defined
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
-
-        getWindow().setFlags(
-                WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM,
-                WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM
-        );
-
-        // Initialize views
         regToLoginBtn = findViewById(R.id.login_signup_button);
         image = findViewById(R.id.logo_image);
         logoText = findViewById(R.id.logo_text);
@@ -59,7 +56,6 @@ public class Signup extends AppCompatActivity {
         regConfirmpassword = findViewById(R.id.reg_confirm_passowrd);
         regBtn = findViewById(R.id.reg_btn);
 
-        // Navigate to Login screen
         regToLoginBtn.setOnClickListener(v -> {
             Intent intent = new Intent(Signup.this, Login.class);
             Pair[] pairs = new Pair[] {
@@ -75,44 +71,84 @@ public class Signup extends AppCompatActivity {
             startActivity(intent, options.toBundle());
         });
 
-        // Handle Registration
         regBtn.setOnClickListener(v -> {
             registerUser();
         });
     }
 
     private void registerUser() {
-        // Validate fields
         if (!validateName() | !validateUsername() | !validateEmail() | !validatePassword() | !validateConfirmPassword()) {
-            return; // Stop if any validation fails
+            return;
         }
 
         rootnode = FirebaseDatabase.getInstance();
         reference = rootnode.getReference("users");
 
-        // Retrieve user inputs
         String name = regName.getEditText().getText().toString();
         String username = regUsername.getEditText().getText().toString();
         String email = regEmail.getEditText().getText().toString();
         String password = regPassword.getEditText().getText().toString();
 
-        // Create helper object
         UserHelperClass helperClass = new UserHelperClass(name, username, email, password);
 
-        // Store in the database under the username node
         reference.child(username).setValue(helperClass)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        // After successful registration, navigate to Email Verification Activity
-                        Intent intent = new Intent(Signup.this, Login.class);
-                        intent.putExtra("email", email); // Pass the email for verification
+                        String verificationCode = generateVerificationCode();
+                        sendVerificationEmail(email, verificationCode);
+
+                        Intent intent = new Intent(Signup.this, EmailVerification.class);
+                        intent.putExtra("email", email);
+                        intent.putExtra("verificationCode", verificationCode);
                         startActivity(intent);
-                        finish(); // Close the current Signup activity so the user can't go back to it
+                        finish();
                     }
                 });
     }
 
-    // Validation methods
+    private String generateVerificationCode() {
+        Random rand = new Random();
+        int verificationCode = rand.nextInt(999999);
+        return String.format("%06d", 100000 + verificationCode);
+    }
+
+    private void sendVerificationEmail(String email, String verificationCode) {
+        String host = "smtp.gmail.com";
+        String from = "med.and.mate@gmail.com";
+        String password = "gyln cuxd vnun cpdg";
+
+        try {
+            Properties properties = new Properties();
+            properties.put("mail.smtp.host", host);
+            properties.put("mail.smtp.port", "587");
+            properties.put("mail.smtp.auth", "true");
+            properties.put("mail.smtp.starttls.enable", "true");
+
+            Session session = Session.getInstance(properties, new javax.mail.Authenticator() {
+                @Override
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication(from, password);
+                }
+            });
+
+            MimeMessage message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(from));
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
+            message.setSubject("Email Verification");
+            message.setText("Your verification code is: " + verificationCode);
+
+            new Thread(() -> {
+                try {
+                    Transport.send(message);
+                } catch (MessagingException e) {
+                    e.printStackTrace();
+                }
+            }).start();
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+
     private Boolean validateName() {
         String val = regName.getEditText() != null ? regName.getEditText().getText().toString().trim() : "";
         if (val.isEmpty()) {

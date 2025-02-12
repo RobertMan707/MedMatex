@@ -78,7 +78,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <!-- CheckBox on the left -->
             <CheckBox
                 android:id="@+id/remember_me"
                 android:layout_width="wrap_content"
@@ -88,7 +87,6 @@
                 android:layout_marginTop="10dp"
                 android:layout_alignParentStart="true" />
 
-            <!-- Button on the right -->
             <Button
                 android:id="@+id/forgotPassword"
                 android:layout_width="wrap_content"
@@ -98,7 +96,6 @@
                 android:textColor="@color/black"
                 android:layout_marginTop="10dp"
                 android:layout_alignParentEnd="true" />
-
         </RelativeLayout>
 
         <Button
@@ -111,6 +108,7 @@
             android:text="Sign in"
             android:textColor="@color/white"
             android:transitionName="button_tran" />
+
         <Button
             android:id="@+id/google_auth"
             android:layout_width="match_parent"
@@ -119,6 +117,7 @@
             android:text="Sign In With Google"
             android:textColor="@color/white"
             android:transitionName="login_signup_tran"/>
+
         <Button
             android:layout_marginVertical="10dp"
             android:id="@+id/login_signup_button"
@@ -128,5 +127,13 @@
             android:text="New User? SIGN UP"
             android:textColor="@color/black"
             android:transitionName="login_signup_tran"/>
+
+        <Button
+            android:id="@+id/guestLoginButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:text="Continue as Guest"
+            android:textColor="@color/black"/>
     </LinearLayout>
 </LinearLayout>

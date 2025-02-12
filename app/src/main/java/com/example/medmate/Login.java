@@ -26,7 +26,7 @@ public class Login extends AppCompatActivity {
 
     TextInputLayout mail, password;
     ImageView image;
-    Button login_btn, callSignUp;
+    Button login_btn, callSignUp, guestLoginBtn;
     TextView logoText, sloganText;
     CheckBox rememberMe;
 
@@ -38,7 +38,6 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // Initialize UI components
         callSignUp = findViewById(R.id.login_signup_button);
         image = findViewById(R.id.logo_image);
         logoText = findViewById(R.id.logo_text);
@@ -47,24 +46,24 @@ public class Login extends AppCompatActivity {
         password = findViewById(R.id.password);
         login_btn = findViewById(R.id.signInButton);
         rememberMe = findViewById(R.id.remember_me);
+        guestLoginBtn = findViewById(R.id.guestLoginButton);
 
-        // Initialize SharedPreferences
         sharedPreferences = getSharedPreferences("loginPrefs", Context.MODE_PRIVATE);
 
-        // Check if user is already logged in
         checkAutoLogin();
 
-        // Set up Sign-Up button
         callSignUp.setOnClickListener(v -> {
             Intent intent = new Intent(Login.this, Signup.class);
             startActivity(intent);
         });
 
-        // Set login button click listener
         login_btn.setOnClickListener(this::loginUser);
+
+        guestLoginBtn.setOnClickListener(v -> {
+            navigateToProfile("Guest");
+        });
     }
 
-    // Check if user should be automatically logged in
     private void checkAutoLogin() {
         boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
         if (isLoggedIn) {
@@ -73,7 +72,6 @@ public class Login extends AppCompatActivity {
         }
     }
 
-    // Validate email input
     private Boolean validateEmail() {
         String val = mail.getEditText() != null ? mail.getEditText().getText().toString().trim() : "";
         if (val.isEmpty()) {
@@ -85,7 +83,6 @@ public class Login extends AppCompatActivity {
         }
     }
 
-    // Validate password input
     private Boolean validatePassword() {
         String val = password.getEditText() != null ? password.getEditText().getText().toString().trim() : "";
         if (val.isEmpty()) {
@@ -97,7 +94,6 @@ public class Login extends AppCompatActivity {
         }
     }
 
-    // Handle user login
     public void loginUser(View view) {
         if (!validateEmail() || !validatePassword()) {
             return;
@@ -106,7 +102,6 @@ public class Login extends AppCompatActivity {
         }
     }
 
-    // Check if the user exists in the database
     private void isUser() {
         String userEmail = mail.getEditText().getText().toString().trim();
         String userPassword = password.getEditText().getText().toString().trim();
@@ -128,21 +123,17 @@ public class Login extends AppCompatActivity {
                             String nameDB = userSnapshot.child("name").getValue(String.class);
                             String emailDB = userSnapshot.child("email").getValue(String.class);
 
-                            // Save login state if Remember Me is checked
                             if (rememberMe.isChecked()) {
                                 saveLoginState(userEmail);
                             }
 
-                            // Navigate to Profile
                             navigateToProfile(emailDB);
                             return;
                         }
                     }
-                    // If no matching password is found
                     password.setError("Password is wrong");
                     password.requestFocus();
                 } else {
-                    // If no such user exists
                     mail.setError("No such user exists");
                     mail.requestFocus();
                 }
@@ -155,7 +146,6 @@ public class Login extends AppCompatActivity {
         });
     }
 
-    // Save login state in SharedPreferences
     private void saveLoginState(String email) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("email", email);
@@ -163,11 +153,10 @@ public class Login extends AppCompatActivity {
         editor.apply();
     }
 
-    // Navigate to Profile activity
     private void navigateToProfile(String email) {
         Intent intent = new Intent(getApplicationContext(), Profile.class);
         intent.putExtra("email", email);
         startActivity(intent);
-        finish(); // Prevents going back to login screen
+        finish();
     }
 }
