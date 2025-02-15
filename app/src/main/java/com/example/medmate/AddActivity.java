@@ -55,7 +55,7 @@ public class AddActivity extends AppCompatActivity {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Navigate to the first question activity (e.g., MedicineTypeActivity)
+
                 Intent intent = new Intent(AddActivity.this, TypeMedicine.class);
                 startActivity(intent);
             }

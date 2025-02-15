@@ -9,6 +9,11 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class MedicineStockActivity extends AppCompatActivity {
 
     private EditText stockInput;
@@ -32,15 +37,21 @@ public class MedicineStockActivity extends AppCompatActivity {
                 }
                 int stockAmount = Integer.parseInt(stockText);
 
-                String medicineName = getIntent().getStringExtra("medicineName");
-                String medicineType = getIntent().getStringExtra("medicineType");
-                String frequency = getIntent().getStringExtra("frequency");
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                if (user == null) {
+                    Toast.makeText(MedicineStockActivity.this, "User not logged in!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                String userId = user.getUid();
+                DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+                String medicineId = database.child("medicines").child(userId).push().getKey();
+
+                if (medicineId != null) {
+                    database.child("medicines").child(userId).child(medicineId).child("stock").setValue(stockAmount);
+                }
 
                 Intent intent = new Intent(MedicineStockActivity.this, Home.class);
-                intent.putExtra("medicine_name", medicineName);
-                intent.putExtra("medicine_type", medicineType);
-                intent.putExtra("frequency", frequency);
-                intent.putExtra("medicine_stock", stockAmount);
                 startActivity(intent);
                 finish();
             }

@@ -3,6 +3,7 @@ package com.example.medmate;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -32,6 +33,13 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.Medici
         holder.medicineType.setText(medicine.getType());
         holder.medicineTime.setText("Time: " + medicine.getTime());
         holder.medicineStock.setText("Stock: " + medicine.getStock());
+
+        holder.medicineCheckBox.setChecked(medicine.isTaken());
+
+
+        holder.medicineCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            medicine.setTaken(isChecked);
+        });
     }
 
     @Override
@@ -41,6 +49,7 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.Medici
 
     public static class MedicineViewHolder extends RecyclerView.ViewHolder {
         TextView medicineName, medicineType, medicineTime, medicineStock;
+        CheckBox medicineCheckBox;
 
         public MedicineViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -48,6 +57,7 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.Medici
             medicineType = itemView.findViewById(R.id.tv_medicine_type);
             medicineTime = itemView.findViewById(R.id.tv_medicine_time);
             medicineStock = itemView.findViewById(R.id.tv_medicine_stock);
+            medicineCheckBox = itemView.findViewById(R.id.cb_medicine_taken);
         }
     }
 }

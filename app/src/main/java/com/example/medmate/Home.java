@@ -1,8 +1,10 @@
 package com.example.medmate;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,9 +13,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Home extends AppCompatActivity {
@@ -23,7 +29,9 @@ public class Home extends AppCompatActivity {
     MedicineAdapter medicineAdapter;
     List<Medicine> medicineList;
     DatabaseReference databaseReference;
+    TextView nextMedicineTextView;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,18 +44,36 @@ public class Home extends AppCompatActivity {
         medicineAdapter = new MedicineAdapter(medicineList);
         recyclerView.setAdapter(medicineAdapter);
 
+        nextMedicineTextView = findViewById(R.id.tv_next_medicine);
+
         databaseReference = FirebaseDatabase.getInstance().getReference("medicines");
 
-        databaseReference.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful() && task.getResult() != null) {
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
                 medicineList.clear();
-                for (DataSnapshot snapshot : task.getResult().getChildren()) {
-                    Medicine medicine = snapshot.getValue(Medicine.class);
+                for (DataSnapshot medicineSnapshot : snapshot.getChildren()) {
+                    Medicine medicine = medicineSnapshot.getValue(Medicine.class);
                     if (medicine != null) {
                         medicineList.add(medicine);
                     }
                 }
+
+                Collections.sort(medicineList, (m1, m2) -> m1.getTime().compareTo(m2.getTime()));
+
+                // Display the next medicine
+                if (!medicineList.isEmpty()) {
+                    Medicine nextMedicine = medicineList.get(0);  // Next medicine is the first one in sorted list
+                    nextMedicineTextView.setText("Next medicine: " + nextMedicine.getName() + " at " + nextMedicine.getTime());
+                }
+
+                // Notify the adapter
                 medicineAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Handle database error
             }
         });
 
@@ -77,5 +103,10 @@ public class Home extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+    public void updateMedicineStatus(Medicine medicine) {
+
+        databaseReference.child(medicine.getId()).child("isTaken").setValue(medicine.isTaken());
     }
 }

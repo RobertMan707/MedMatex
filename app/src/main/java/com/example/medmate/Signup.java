@@ -1,26 +1,20 @@
 package com.example.medmate;
 
+import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Pair;
-import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.Random;
-import java.util.Properties;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
@@ -29,16 +23,20 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import java.util.Properties;
+import java.util.Random;
+
 public class Signup extends AppCompatActivity {
 
     ImageView image;
     TextView logoText, sloganText;
-    TextInputLayout regName, regUsername, regEmail, regPassword, regConfirmpassword;
+    TextInputLayout regName, regUsername, regEmail, regPassword, regConfirmPassword;
     Button regBtn, regToLoginBtn;
 
     DatabaseReference reference;
-    FirebaseDatabase rootnode;
+    FirebaseDatabase rootNode;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +51,7 @@ public class Signup extends AppCompatActivity {
         regUsername = findViewById(R.id.reg_username);
         regEmail = findViewById(R.id.reg_email);
         regPassword = findViewById(R.id.reg_password);
-        regConfirmpassword = findViewById(R.id.reg_confirm_passowrd);
+        regConfirmPassword = findViewById(R.id.reg_confirm_password);
         regBtn = findViewById(R.id.reg_btn);
 
         regToLoginBtn.setOnClickListener(v -> {
@@ -71,9 +69,7 @@ public class Signup extends AppCompatActivity {
             startActivity(intent, options.toBundle());
         });
 
-        regBtn.setOnClickListener(v -> {
-            registerUser();
-        });
+        regBtn.setOnClickListener(v -> registerUser());
     }
 
     private void registerUser() {
@@ -81,17 +77,17 @@ public class Signup extends AppCompatActivity {
             return;
         }
 
-        rootnode = FirebaseDatabase.getInstance();
-        reference = rootnode.getReference("users");
+        rootNode = FirebaseDatabase.getInstance();
+        reference = rootNode.getReference("users");
 
         String name = regName.getEditText().getText().toString();
         String username = regUsername.getEditText().getText().toString();
         String email = regEmail.getEditText().getText().toString();
         String password = regPassword.getEditText().getText().toString();
 
-        UserHelperClass helperClass = new UserHelperClass(name, username, email, password);
+        UserHelperClass user = new UserHelperClass(name, username, email, password);
 
-        reference.child(username).setValue(helperClass)
+        reference.child(username).setValue(user)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         String verificationCode = generateVerificationCode();
@@ -109,7 +105,7 @@ public class Signup extends AppCompatActivity {
     private String generateVerificationCode() {
         Random rand = new Random();
         int verificationCode = rand.nextInt(999999);
-        return String.format("%06d", 100000 + verificationCode);
+        return String.format("%06d", verificationCode);
     }
 
     private void sendVerificationEmail(String email, String verificationCode) {
@@ -117,13 +113,13 @@ public class Signup extends AppCompatActivity {
         String from = "med.and.mate@gmail.com";
         String password = "gyln cuxd vnun cpdg";
 
-        try {
-            Properties properties = new Properties();
-            properties.put("mail.smtp.host", host);
-            properties.put("mail.smtp.port", "587");
-            properties.put("mail.smtp.auth", "true");
-            properties.put("mail.smtp.starttls.enable", "true");
+        Properties properties = new Properties();
+        properties.put("mail.smtp.host", host);
+        properties.put("mail.smtp.port", "587");
+        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.starttls.enable", "true");
 
+        try {
             Session session = Session.getInstance(properties, new javax.mail.Authenticator() {
                 @Override
                 protected PasswordAuthentication getPasswordAuthentication() {
@@ -149,6 +145,7 @@ public class Signup extends AppCompatActivity {
         }
     }
 
+    // Validation Methods
     private Boolean validateName() {
         String val = regName.getEditText() != null ? regName.getEditText().getText().toString().trim() : "";
         if (val.isEmpty()) {
@@ -210,16 +207,16 @@ public class Signup extends AppCompatActivity {
 
     private Boolean validateConfirmPassword() {
         String password = regPassword.getEditText() != null ? regPassword.getEditText().getText().toString().trim() : "";
-        String confirmPassword = regConfirmpassword.getEditText() != null ? regConfirmpassword.getEditText().getText().toString().trim() : "";
+        String confirmPassword = regConfirmPassword.getEditText() != null ? regConfirmPassword.getEditText().getText().toString().trim() : "";
 
         if (confirmPassword.isEmpty()) {
-            regConfirmpassword.setError("Field cannot be empty");
+            regConfirmPassword.setError("Field cannot be empty");
             return false;
         } else if (!confirmPassword.equals(password)) {
-            regConfirmpassword.setError("Passwords do not match");
+            regConfirmPassword.setError("Passwords do not match");
             return false;
         } else {
-            regConfirmpassword.setError(null);
+            regConfirmPassword.setError(null);
             return true;
         }
     }

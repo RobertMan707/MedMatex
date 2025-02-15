@@ -17,19 +17,18 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Ensure the correct layout file is set
         setContentView(R.layout.activity_main);
 
-        // Enable Edge-to-Edge mode
         EdgeToEdge.enable(this);
 
-        // Find the main view for WindowInsets application
         View mainView = findViewById(R.id.main);
         if (mainView != null) {
             ViewCompat.setOnApplyWindowInsetsListener(mainView, (v, insets) -> {
@@ -41,11 +40,9 @@ public class MainActivity extends AppCompatActivity {
             Log.e("MainActivity", "Main view is null. Check your activity_main.xml for a view with id 'main'.");
         }
 
-        // Load animations
         Animation bottomAnim = AnimationUtils.loadAnimation(this, R.anim.bottom_animation);
         Animation topAnim = AnimationUtils.loadAnimation(this, R.anim.top_animation);
 
-        // Find views for animation
         View image = findViewById(R.id.mymed);
         View logo = findViewById(R.id.MedMate);
         View slogan = findViewById(R.id.slogan_name);
@@ -55,20 +52,25 @@ public class MainActivity extends AppCompatActivity {
         if (logo != null) logo.setAnimation(bottomAnim);
         if (slogan != null) slogan.setAnimation(bottomAnim);
 
-        // Splash screen delay
         long splashScreenDuration = 2500;
 
-        // Navigate to Login activity after splash screen
         new Handler().postDelayed(() -> {
-            Intent intent = new Intent(MainActivity.this, Login.class);
+            FirebaseAuth auth = FirebaseAuth.getInstance();
+            if (auth.getCurrentUser() != null) {
 
-            Pair[] pairs = new Pair[2];
-            pairs[0] = new Pair<>(image, "logo_image");
-            pairs[1] = new Pair<>(logo, "logo_text");
+                Intent intent = new Intent(MainActivity.this, Home.class);
+                startActivity(intent);
+            } else {
 
-            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, pairs);
-            startActivity(intent, options.toBundle());
-
+                Intent intent = new Intent(MainActivity.this, Login.class);
+                Pair[] pairs = new Pair[2];
+                pairs[0] = new Pair<>(image, "logo_image");
+                pairs[1] = new Pair<>(logo, "logo_text");
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, pairs);
+                startActivity(intent, options.toBundle());
+            }
+            finish();
         }, splashScreenDuration);
+
     }
 }
