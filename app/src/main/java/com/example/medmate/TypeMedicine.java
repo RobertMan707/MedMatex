@@ -59,8 +59,6 @@ public class TypeMedicine extends AppCompatActivity {
     }
 
     private void navigateToNextScreen(String type) {
-        Intent intent = new Intent(TypeMedicine.this, MedicineName.class);
-        intent.putExtra("medicineType", type);
-        startActivity(intent);
+
     }
 }

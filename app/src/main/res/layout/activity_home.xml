@@ -6,23 +6,7 @@
     android:background="#ccecee">
 
 
-    <TextView
-        android:id="@+id/tv_next_medicine"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Next medicine: [Medicine Name] at [Time]"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:layout_margin="16dp"
-        android:layout_gravity="center_horizontal"
-        tools:ignore="MissingConstraints" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        tools:ignore="MissingConstraints" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_menu"

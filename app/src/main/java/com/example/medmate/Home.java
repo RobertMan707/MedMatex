@@ -26,8 +26,7 @@ public class Home extends AppCompatActivity {
 
     BottomNavigationView bottomNav;
     RecyclerView recyclerView;
-    MedicineAdapter medicineAdapter;
-    List<Medicine> medicineList;
+
     DatabaseReference databaseReference;
     TextView nextMedicineTextView;
 
@@ -40,42 +39,12 @@ public class Home extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        medicineList = new ArrayList<>();
-        medicineAdapter = new MedicineAdapter(medicineList);
-        recyclerView.setAdapter(medicineAdapter);
 
         nextMedicineTextView = findViewById(R.id.tv_next_medicine);
 
         databaseReference = FirebaseDatabase.getInstance().getReference("medicines");
 
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                medicineList.clear();
-                for (DataSnapshot medicineSnapshot : snapshot.getChildren()) {
-                    Medicine medicine = medicineSnapshot.getValue(Medicine.class);
-                    if (medicine != null) {
-                        medicineList.add(medicine);
-                    }
-                }
 
-                Collections.sort(medicineList, (m1, m2) -> m1.getTime().compareTo(m2.getTime()));
-
-                // Display the next medicine
-                if (!medicineList.isEmpty()) {
-                    Medicine nextMedicine = medicineList.get(0);  // Next medicine is the first one in sorted list
-                    nextMedicineTextView.setText("Next medicine: " + nextMedicine.getName() + " at " + nextMedicine.getTime());
-                }
-
-                // Notify the adapter
-                medicineAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                // Handle database error
-            }
-        });
 
         bottomNav = findViewById(R.id.nav_menu);
         bottomNav.setSelectedItemId(R.id.nav_home);
@@ -105,8 +74,5 @@ public class Home extends AppCompatActivity {
         });
     }
 
-    public void updateMedicineStatus(Medicine medicine) {
 
-        databaseReference.child(medicine.getId()).child("isTaken").setValue(medicine.isTaken());
-    }
 }

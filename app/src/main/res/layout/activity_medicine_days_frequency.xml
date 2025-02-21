@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center"
+    tools:ignore="ExtraText"
+    android:background="#ccecee">
+
+    <TextView
+        android:id="@+id/daysTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Days"
+        android:textSize="36sp"
+        android:textColor="#0b9e9c"
+        android:fontFamily="sans-serif-medium"
+        android:padding="16dp"
+        android:gravity="center"/>
+
+    <LinearLayout
+        android:id="@+id/daysLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:weightSum="4"
+        android:layout_marginTop="16dp"
+>
+
+        <ToggleButton
+            android:id="@+id/sundayToggleButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Sun"
+            android:textOn="Sun"
+            android:textOff="Sun"
+            android:background="@drawable/toggle_button_style"
+            android:textColor="#ffffff"
+            android:layout_weight="1"
+            android:layout_marginRight="5dp"/>
+
+        <ToggleButton
+            android:id="@+id/mondayToggleButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Mon"
+            android:textOn="Mon"
+            android:textOff="Mon"
+            android:background="@drawable/toggle_button_style"
+            android:textColor="#ffffff"
+            android:layout_weight="1"
+            android:layout_marginRight="5dp"/>
+
+        <ToggleButton
+            android:id="@+id/tuesdayToggleButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Tue"
+            android:textOn="Tue"
+            android:textOff="Tue"
+            android:background="@drawable/toggle_button_style"
+            android:textColor="#ffffff"
+            android:layout_weight="1"
+            android:layout_marginRight="5dp"/>
+
+        <ToggleButton
+            android:id="@+id/wednesdayToggleButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Wed"
+            android:textOn="Wed"
+            android:textOff="Wed"
+            android:background="@drawable/toggle_button_style"
+            android:textColor="#ffffff"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:weightSum="4"
+        android:layout_marginTop="5dp"
+        android:padding="5dp"
+        tools:ignore="ExtraText">
+        <ToggleButton
+            android:id="@+id/thursdayToggleButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Thu"
+            android:textOn="Thu"
+            android:textOff="Thu"
+            android:background="@drawable/toggle_button_style"
+            android:textColor="#ffffff"
+            android:layout_weight="1"
+            android:layout_marginRight="5dp"/>
+
+        <ToggleButton
+            android:id="@+id/fridayToggleButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Fri"
+            android:textOn="Fri"
+            android:textOff="Fri"
+            android:background="@drawable/toggle_button_style"
+            android:textColor="#ffffff"
+            android:layout_weight="1"
+            android:layout_marginRight="5dp"/>
+
+        <ToggleButton
+            android:id="@+id/saturdayToggleButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Sat"
+            android:textOn="Sat"
+            android:textOff="Sat"
+            android:background="@drawable/toggle_button_style"
+            android:textColor="#ffffff"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/frequencyTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Frequency"
+        android:textSize="36sp"
+        android:textColor="#0a6f6b"
+        android:fontFamily="sans-serif-medium"
+        android:padding="16dp"
+        android:gravity="center"
+        android:layout_marginTop="32dp"/>
+>
+    <RadioGroup
+        android:id="@+id/frequencyRadioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="16dp"
+        android:gravity="center">
+
+        <RadioButton
+            android:id="@+id/onceRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Once a Day"
+            android:textColor="#0a6f6b"/>
+
+        <RadioButton
+            android:id="@+id/twiceRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Twice a Day"
+            android:textColor="#0a6f6b"/>
+
+        <RadioButton
+            android:id="@+id/thriceRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Three Times a Day"
+            android:textColor="#0a6f6b"/>
+    </RadioGroup>
+
+</LinearLayout>
