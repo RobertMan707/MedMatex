@@ -36,11 +36,11 @@ public class Home extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        recyclerView = findViewById(R.id.recyclerView);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
-        nextMedicineTextView = findViewById(R.id.tv_next_medicine);
+
 
         databaseReference = FirebaseDatabase.getInstance().getReference("medicines");
 

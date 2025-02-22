@@ -7,7 +7,8 @@
     android:padding="16dp"
     android:gravity="center"
     tools:ignore="ExtraText"
-    android:background="#ccecee">
+    android:background="#ccecee"
+    android:id="@+id/main">
 
     <TextView
         android:id="@+id/daysTitle"
@@ -166,5 +167,7 @@
             android:text="Three Times a Day"
             android:textColor="#0a6f6b"/>
     </RadioGroup>
+
+
 
 </LinearLayout>
