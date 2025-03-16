@@ -5,10 +5,10 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ccecee"
     tools:context=".Medicine_count">
 
-    <!-- Medicine Name Title -->
-
+    <!-- Title TextView -->
     <TextView
         android:id="@+id/medicineTitle"
         android:layout_width="wrap_content"
@@ -16,20 +16,21 @@
         android:layout_marginTop="64dp"
         android:padding="16dp"
         android:text="Enter amount for:"
-        android:textSize="18sp"
+        android:textSize="20sp"
+        android:textColor="#000000"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Medicine Amount Input Field -->
     <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
+        android:id="@+id/medicineAmountLayout"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="84dp"
-        android:hint="Enter Medicine Amount"
+        android:layout_marginTop="48dp"
         android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/medicineTitle">
 
@@ -37,19 +38,24 @@
             android:id="@+id/medicineAmountInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number" />
+            android:inputType="number"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            android:hint="Enter Medicine Amount"
+  />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/nextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="16dp"
         android:text="Next"
+        android:textColor="#ffffff"
+        android:textSize="18sp"
+        android:backgroundTint="#2196F3"
+        android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteY="355dp" />
+        app:layout_constraintTop_toBottomOf="@id/medicineAmountLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

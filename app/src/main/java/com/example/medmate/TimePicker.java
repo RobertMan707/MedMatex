@@ -3,19 +3,13 @@ package com.example.medmate;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-
-import com.google.android.material.textfield.TextInputEditText;
 
 public class TimePicker extends AppCompatActivity {
 
@@ -23,40 +17,42 @@ public class TimePicker extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_time_picker);
-
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
 
         String medicineName = getIntent().getStringExtra("MEDICINE_NAME");
         String medicineType = getIntent().getStringExtra("SELECTED_MEDICINE_TYPE");
         int frequency = getIntent().getIntExtra("SELECTED_FREQUENCY", 1);
 
-
-
-        Log.d("TimePicker", "Medicine Name: " + medicineName);
-        Log.d("TimePicker", "Medicine Type: " + medicineType);
-        Log.d("TimePicker", "Frequency: " + frequency);
-
         LinearLayout timePickerLayout = findViewById(R.id.timepickerLayout);
         timePickerLayout.removeAllViews();
 
         for (int i = 0; i < frequency; i++) {
+
             NumberPicker hourPicker = new NumberPicker(this);
             hourPicker.setMinValue(0);
             hourPicker.setMaxValue(23);
+            hourPicker.setValue(8);
+            hourPicker.setWrapSelectorWheel(true);
 
             NumberPicker minutePicker = new NumberPicker(this);
-            minutePicker.setMinValue(0);
+            minutePicker.setMinValue(00);
             minutePicker.setMaxValue(59);
+            minutePicker.setValue(00);
+            minutePicker.setWrapSelectorWheel(true);
 
             LinearLayout pickerContainer = new LinearLayout(this);
             pickerContainer.setOrientation(LinearLayout.HORIZONTAL);
+            pickerContainer.setPadding(8, 8, 8, 8);
+            pickerContainer.setGravity(Gravity.CENTER);
+
             pickerContainer.addView(hourPicker);
+
+            TextView colon = new TextView(this);
+            colon.setText(":");
+            colon.setTextSize(36);
+            colon.setGravity(Gravity.CENTER);
+            pickerContainer.addView(colon);
+
             pickerContainer.addView(minutePicker);
 
             timePickerLayout.addView(pickerContainer);
@@ -69,19 +65,17 @@ public class TimePicker extends AppCompatActivity {
             timeTitle.setText("Select Time (Twice a Day)");
         } else if (frequency == 3) {
             timeTitle.setText("Select Time (Three Times a Day)");
-
-
-
-            Button nextButton = findViewById(R.id.nextButton);
-            nextButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent nextIntent = new Intent(TimePicker.this, Medicine_count.class);
-                    nextIntent.putExtra("MEDICINE_NAME", medicineName);
-                    nextIntent.putExtra("SELECTED_MEDICINE_TYPE", medicineType);
-                    startActivity(nextIntent);
-                }
-            });
         }
+
+        Button nextButton = findViewById(R.id.nextButton);
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent nextIntent = new Intent(TimePicker.this, Medicine_count.class);
+                nextIntent.putExtra("MEDICINE_NAME", medicineName);
+                nextIntent.putExtra("SELECTED_MEDICINE_TYPE", medicineType);
+                startActivity(nextIntent);
+            }
+        });
     }
 }

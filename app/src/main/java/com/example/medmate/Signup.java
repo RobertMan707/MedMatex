@@ -85,21 +85,25 @@ public class Signup extends AppCompatActivity {
         String email = regEmail.getEditText().getText().toString();
         String password = regPassword.getEditText().getText().toString();
 
+        String userId = reference.push().getKey();
+
         UserHelperClass user = new UserHelperClass(name, username, email, password);
 
-        reference.child(username).setValue(user)
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        String verificationCode = generateVerificationCode();
-                        sendVerificationEmail(email, verificationCode);
+        if (userId != null) {
+            reference.child(userId).setValue(user)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            String verificationCode = generateVerificationCode();
+                            sendVerificationEmail(email, verificationCode);
 
-                        Intent intent = new Intent(Signup.this, EmailVerification.class);
-                        intent.putExtra("email", email);
-                        intent.putExtra("verificationCode", verificationCode);
-                        startActivity(intent);
-                        finish();
-                    }
-                });
+                            Intent intent = new Intent(Signup.this, EmailVerification.class);
+                            intent.putExtra("email", email);
+                            intent.putExtra("verificationCode", verificationCode);
+                            startActivity(intent);
+                            finish();
+                        }
+                    });
+        }
     }
 
     private String generateVerificationCode() {
