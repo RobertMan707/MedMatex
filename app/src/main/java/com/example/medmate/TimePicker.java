@@ -35,9 +35,9 @@ public class TimePicker extends AppCompatActivity {
             hourPicker.setWrapSelectorWheel(true);
 
             NumberPicker minutePicker = new NumberPicker(this);
-            minutePicker.setMinValue(00);
+            minutePicker.setMinValue(0);
             minutePicker.setMaxValue(59);
-            minutePicker.setValue(00);
+            minutePicker.setValue(0);
             minutePicker.setWrapSelectorWheel(true);
 
             LinearLayout pickerContainer = new LinearLayout(this);
@@ -74,6 +74,7 @@ public class TimePicker extends AppCompatActivity {
                 Intent nextIntent = new Intent(TimePicker.this, Medicine_count.class);
                 nextIntent.putExtra("MEDICINE_NAME", medicineName);
                 nextIntent.putExtra("SELECTED_MEDICINE_TYPE", medicineType);
+                // Optionally pass selected times if needed (if you collect the data)
                 startActivity(nextIntent);
             }
         });

@@ -8,6 +8,7 @@ import android.util.Pair;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -76,7 +77,6 @@ public class Signup extends AppCompatActivity {
         if (!validateName() | !validateUsername() | !validateEmail() | !validatePassword() | !validateConfirmPassword()) {
             return;
         }
-
         rootNode = FirebaseDatabase.getInstance();
         reference = rootNode.getReference("users");
 
@@ -87,9 +87,9 @@ public class Signup extends AppCompatActivity {
 
         String userId = reference.push().getKey();
 
-        UserHelperClass user = new UserHelperClass(name, username, email, password);
-
         if (userId != null) {
+            UserHelperClass user = new UserHelperClass(name, username, email, password);
+
             reference.child(userId).setValue(user)
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
@@ -101,8 +101,12 @@ public class Signup extends AppCompatActivity {
                             intent.putExtra("verificationCode", verificationCode);
                             startActivity(intent);
                             finish();
+                        } else {
+                            Toast.makeText(Signup.this, "Registration failed! Please try again.", Toast.LENGTH_SHORT).show();
                         }
                     });
+        } else {
+            Toast.makeText(this, "Error generating user ID. Please try again.", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -149,7 +153,6 @@ public class Signup extends AppCompatActivity {
         }
     }
 
-    // Validation Methods
     private Boolean validateName() {
         String val = regName.getEditText() != null ? regName.getEditText().getText().toString().trim() : "";
         if (val.isEmpty()) {
