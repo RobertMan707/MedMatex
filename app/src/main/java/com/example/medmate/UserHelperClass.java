@@ -4,11 +4,9 @@ public class UserHelperClass {
 
     String name, username, email, password;
 
-    // Default constructor (required for Firebase)
     public UserHelperClass() {
     }
 
-    // Constructor with correct order
     public UserHelperClass(String name, String username, String email, String password) {
         this.name = name;
         this.username = username;
@@ -16,7 +14,6 @@ public class UserHelperClass {
         this.password = password;
     }
 
-    // Getters and Setters
     public String getName() {
         return name;
     }

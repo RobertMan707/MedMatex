@@ -13,7 +13,7 @@ public class UserUtils {
         String deviceId = prefs.getString(KEY_DEVICE_ID, null);
 
         if (deviceId == null) {
-            deviceId = UUID.randomUUID().toString(); // Generate a unique ID
+            deviceId = UUID.randomUUID().toString();
             prefs.edit().putString(KEY_DEVICE_ID, deviceId).apply();
         }
 

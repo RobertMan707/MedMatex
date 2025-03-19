@@ -8,7 +8,6 @@
     android:background="#ccecee"
     tools:context=".Medicine_count">
 
-    <!-- Title TextView -->
     <TextView
         android:id="@+id/medicineTitle"
         android:layout_width="wrap_content"
@@ -23,7 +22,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Medicine Amount Input Field -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/medicineAmountLayout"
         android:layout_width="0dp"
@@ -42,11 +40,24 @@
             android:textColor="#000000"
             android:textSize="18sp"
             android:hint="Enter Medicine Amount"
-  />
+            />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <TextView
+        android:id="@+id/unitText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="184dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:text="Unit: "
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/medicineAmountLayout" />
+
     <Button
-        android:id="@+id/nextButton"
+        android:id="@+id/submitButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Next"
@@ -56,6 +67,6 @@
         android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/medicineAmountLayout" />
+        app:layout_constraintTop_toBottomOf="@id/unitText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

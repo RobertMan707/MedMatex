@@ -74,7 +74,7 @@ public class TimePicker extends AppCompatActivity {
                 Intent nextIntent = new Intent(TimePicker.this, Medicine_count.class);
                 nextIntent.putExtra("MEDICINE_NAME", medicineName);
                 nextIntent.putExtra("SELECTED_MEDICINE_TYPE", medicineType);
-                // Optionally pass selected times if needed (if you collect the data)
+
                 startActivity(nextIntent);
             }
         });
