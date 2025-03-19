@@ -27,7 +27,7 @@ public class Medicine_count extends AppCompatActivity {
 
         selectedMedicineType = getIntent().getStringExtra("SELECTED_MEDICINE_TYPE");
 
-        medicineTitlesetText(selectedMedicineType);
+        medicineTitle.setText(selectedMedicineType);
 
         setUnitBasedOnType(selectedMedicineType);
 
@@ -35,7 +35,7 @@ public class Medicine_count extends AppCompatActivity {
             String amountText = medicineAmount.getText().toString();
             if (!amountText.isEmpty()) {
                 double amount = Double.parseDouble(amountText);
-                // Process the entered amount and the selected unit
+
                 processAmount(amount);
             } else {
                 Toast.makeText(Medicine_count.this, "Please enter the amount", Toast.LENGTH_SHORT).show();
