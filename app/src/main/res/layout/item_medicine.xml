@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -9,13 +8,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center_vertical"
-        android:padding="8dp">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+        android:orientation="vertical">
+
         <TextView
             android:id="@+id/medicine_name"
             android:layout_width="wrap_content"
@@ -44,14 +38,29 @@
             android:layout_height="wrap_content"
             android:text="Type: Liquid"
             android:textSize="16sp" />
-    </LinearLayout>
+
+        <TextView
+            android:id="@+id/medicine_dosage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dosage: 10 mg"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/medicine_low_stock_warning"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Low Stock!"
+            android:textColor="@android:color/holo_red_light"
+            android:visibility="gone"
+            android:textSize="16sp" />
+
         <CheckBox
             android:id="@+id/medicine_checkbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Taken"
             android:textSize="14sp"
-            android:layout_marginTop="8dp"/>
-
+            android:layout_marginTop="8dp" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>

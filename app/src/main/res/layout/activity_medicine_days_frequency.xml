@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -28,8 +27,7 @@
         android:orientation="horizontal"
         android:gravity="center"
         android:weightSum="4"
-        android:layout_marginTop="16dp"
->
+        android:layout_marginTop="16dp">
 
         <ToggleButton
             android:id="@+id/sundayToggleButton"
@@ -79,9 +77,7 @@
             android:layout_weight="1"/>
     </LinearLayout>
 
-
     <LinearLayout
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -90,6 +86,7 @@
         android:layout_marginTop="5dp"
         android:padding="5dp"
         tools:ignore="ExtraText">
+
         <ToggleButton
             android:id="@+id/thursdayToggleButton"
             android:layout_width="0dp"
@@ -137,7 +134,7 @@
         android:padding="16dp"
         android:gravity="center"
         android:layout_marginTop="32dp"/>
->
+
     <RadioGroup
         android:id="@+id/frequencyRadioGroup"
         android:layout_width="wrap_content"
@@ -168,6 +165,13 @@
             android:textColor="#0a6f6b"/>
     </RadioGroup>
 
-
-
+    <Button
+        android:id="@+id/nextButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Next"
+        android:textColor="#000"
+        android:textSize="35sp"
+        android:backgroundTint="#0000"
+    android:layout_marginTop="32dp"/>
 </LinearLayout>

@@ -9,9 +9,6 @@
     android:id="@+id/main"
     android:background="#ccecee">
 
-
-
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/medicineNameInputLayout"
         android:layout_width="match_parent"

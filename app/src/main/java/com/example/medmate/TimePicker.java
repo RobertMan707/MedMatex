@@ -1,5 +1,7 @@
 package com.example.medmate;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +11,10 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.ArrayList;
 
 public class TimePicker extends AppCompatActivity {
 
@@ -22,12 +27,14 @@ public class TimePicker extends AppCompatActivity {
         String medicineName = getIntent().getStringExtra("MEDICINE_NAME");
         String medicineType = getIntent().getStringExtra("SELECTED_MEDICINE_TYPE");
         int frequency = getIntent().getIntExtra("SELECTED_FREQUENCY", 1);
+        ArrayList<String> selectedDaysStr = getIntent().getStringArrayListExtra("SELECTED_DAYS");
 
         LinearLayout timePickerLayout = findViewById(R.id.timepickerLayout);
         timePickerLayout.removeAllViews();
 
-        for (int i = 0; i < frequency; i++) {
+        ArrayList<String> selectedTimes = new ArrayList<>();
 
+        for (int i = 0; i < frequency; i++) {
             NumberPicker hourPicker = new NumberPicker(this);
             hourPicker.setMinValue(0);
             hourPicker.setMaxValue(23);
@@ -56,6 +63,8 @@ public class TimePicker extends AppCompatActivity {
             pickerContainer.addView(minutePicker);
 
             timePickerLayout.addView(pickerContainer);
+
+            selectedTimes.add(hourPicker.getValue() + ":" + minutePicker.getValue());
         }
 
         TextView timeTitle = findViewById(R.id.timeTitle);
@@ -72,8 +81,12 @@ public class TimePicker extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent nextIntent = new Intent(TimePicker.this, Medicine_count.class);
+
                 nextIntent.putExtra("MEDICINE_NAME", medicineName);
                 nextIntent.putExtra("SELECTED_MEDICINE_TYPE", medicineType);
+                nextIntent.putExtra("SELECTED_FREQUENCY", frequency);
+                nextIntent.putStringArrayListExtra("SELECTED_DAYS", selectedDaysStr);
+                nextIntent.putStringArrayListExtra("SELECTED_TIMES", selectedTimes);
 
                 startActivity(nextIntent);
             }

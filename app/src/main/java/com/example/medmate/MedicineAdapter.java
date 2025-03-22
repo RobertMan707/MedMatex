@@ -34,9 +34,16 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.Medici
         holder.timeTextView.setText("Time: " + medicine.getTime());
         holder.typeTextView.setText("Type: " + medicine.getType());
 
+        holder.dosageTextView.setText("Dosage: " + medicine.getDosage() + " " + medicine.getType());
+
+        if (medicine.getCount() <= Integer.parseInt(medicine.getLowStockReminder())) {
+            holder.lowStockWarningTextView.setVisibility(View.VISIBLE);
+            holder.lowStockWarningTextView.setText("Low Stock! Reminder set for " + medicine.getLowStockReminder());
+        } else {
+            holder.lowStockWarningTextView.setVisibility(View.GONE);
+        }
 
         holder.checkbox.setChecked(medicine.isTaken());
-
         holder.checkbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
             medicine.setTaken(isChecked);
             markMedicineAsTaken(medicine);
@@ -53,7 +60,7 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.Medici
     }
 
     public static class MedicineViewHolder extends RecyclerView.ViewHolder {
-        TextView nameTextView, countTextView, timeTextView, typeTextView;
+        TextView nameTextView, countTextView, timeTextView, typeTextView, dosageTextView, lowStockWarningTextView;
         CheckBox checkbox;
 
         public MedicineViewHolder(View itemView) {
@@ -62,6 +69,8 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.Medici
             countTextView = itemView.findViewById(R.id.medicine_count);
             timeTextView = itemView.findViewById(R.id.medicine_time);
             typeTextView = itemView.findViewById(R.id.medicine_type);
+            dosageTextView = itemView.findViewById(R.id.medicine_dosage);
+            lowStockWarningTextView = itemView.findViewById(R.id.medicine_low_stock_warning);
             checkbox = itemView.findViewById(R.id.medicine_checkbox);
         }
     }
