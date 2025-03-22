@@ -1,12 +1,8 @@
 package com.example.medmate;
 
-import static androidx.core.content.ContextCompat.startActivity;
-
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
-import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
@@ -18,16 +14,15 @@ import java.util.ArrayList;
 
 public class TimePicker extends AppCompatActivity {
 
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_time_picker);
 
-        String medicineName = getIntent().getStringExtra("MEDICINE_NAME");
+        String medicineName = getIntent().getStringExtra("SELECTED_MEDICINE_NAME");
         String medicineType = getIntent().getStringExtra("SELECTED_MEDICINE_TYPE");
         int frequency = getIntent().getIntExtra("SELECTED_FREQUENCY", 1);
-        ArrayList<String> selectedDaysStr = getIntent().getStringArrayListExtra("SELECTED_DAYS");
+        ArrayList<String> selectedDays = getIntent().getStringArrayListExtra("SELECTED_DAYS");
 
         LinearLayout timePickerLayout = findViewById(R.id.timepickerLayout);
         timePickerLayout.removeAllViews();
@@ -77,19 +72,22 @@ public class TimePicker extends AppCompatActivity {
         }
 
         Button nextButton = findViewById(R.id.nextButton);
-        nextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent nextIntent = new Intent(TimePicker.this, Medicine_count.class);
-
-                nextIntent.putExtra("MEDICINE_NAME", medicineName);
-                nextIntent.putExtra("SELECTED_MEDICINE_TYPE", medicineType);
-                nextIntent.putExtra("SELECTED_FREQUENCY", frequency);
-                nextIntent.putStringArrayListExtra("SELECTED_DAYS", selectedDaysStr);
-                nextIntent.putStringArrayListExtra("SELECTED_TIMES", selectedTimes);
-
-                startActivity(nextIntent);
+        nextButton.setOnClickListener(v -> {
+            selectedTimes.clear();
+            for (int i = 0; i < frequency; i++) {
+                LinearLayout pickerContainer = (LinearLayout) timePickerLayout.getChildAt(i);
+                NumberPicker hourPicker = (NumberPicker) pickerContainer.getChildAt(0);
+                NumberPicker minutePicker = (NumberPicker) pickerContainer.getChildAt(2);
+                selectedTimes.add(hourPicker.getValue() + ":" + minutePicker.getValue());
             }
+
+            Intent nextIntent = new Intent(TimePicker.this, Medicine_count.class);
+            nextIntent.putExtra("SELECTED_MEDICINE_NAME", medicineName);
+            nextIntent.putExtra("SELECTED_MEDICINE_TYPE", medicineType);
+            nextIntent.putExtra("SELECTED_FREQUENCY", frequency);
+            nextIntent.putStringArrayListExtra("SELECTED_DAYS", selectedDays);
+            nextIntent.putStringArrayListExtra("SELECTED_TIMES", selectedTimes);
+            startActivity(nextIntent);
         });
     }
 }

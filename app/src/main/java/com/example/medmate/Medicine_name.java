@@ -39,8 +39,8 @@ public class Medicine_name extends AppCompatActivity {
                     Toast.makeText(Medicine_name.this, "Please enter a medicine name!", Toast.LENGTH_SHORT).show();
                 } else {
                     Intent nextIntent = new Intent(Medicine_name.this, Medicine_Days_frequency.class);
-                    nextIntent.putExtra("MEDICINE_NAME", medicineName);
-                    nextIntent.putExtra("SELECTED_MEDICINE_TYPE", medicineType);
+                    nextIntent.putExtra("SELECTED_MEDICINE_NAME", medicineName); // Fixed key
+                    nextIntent.putExtra("SELECTED_MEDICINE_TYPE", medicineType); // Fixed key
                     startActivity(nextIntent);
                 }
             }

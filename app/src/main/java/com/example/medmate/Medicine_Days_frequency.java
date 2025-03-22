@@ -2,6 +2,8 @@ package com.example.medmate;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -35,16 +37,19 @@ public class Medicine_Days_frequency extends AppCompatActivity {
         ToggleButton saturdayToggle = findViewById(R.id.saturdayToggleButton);
 
         RadioGroup frequencyRadioGroup = findViewById(R.id.frequencyRadioGroup);
+        Button nextButton = findViewById(R.id.nextButton);
 
-        frequencyRadioGroup.setOnCheckedChangeListener((group, checkedId) -> {
+        nextButton.setOnClickListener(v -> {
+            Toast.makeText(Medicine_Days_frequency.this, "Next button clicked!", Toast.LENGTH_SHORT).show();
 
-            String selectedFrequency = "";
+            int selectedFrequency = 1; // Default value
+            int checkedId = frequencyRadioGroup.getCheckedRadioButtonId();
             if (checkedId == R.id.onceRadioButton) {
-                selectedFrequency = "Once a day";
+                selectedFrequency = 1;
             } else if (checkedId == R.id.twiceRadioButton) {
-                selectedFrequency = "Twice a day";
+                selectedFrequency = 2;
             } else if (checkedId == R.id.thriceRadioButton) {
-                selectedFrequency = "Three times a day";
+                selectedFrequency = 3;
             }
 
             ArrayList<String> selectedDays = new ArrayList<>();
@@ -61,18 +66,17 @@ public class Medicine_Days_frequency extends AppCompatActivity {
                 return;
             }
 
-            String selectedDaysStr;
-            if (selectedDays.size() == 7) {
-                selectedDaysStr = "Daily";
-            } else {
-                selectedDaysStr = String.join(", ", selectedDays);
-            }
-
             Intent nextIntent = new Intent(Medicine_Days_frequency.this, TimePicker.class);
             nextIntent.putExtra("SELECTED_FREQUENCY", selectedFrequency);
             nextIntent.putExtra("SELECTED_MEDICINE_NAME", medicineName);
             nextIntent.putExtra("SELECTED_MEDICINE_TYPE", medicineType);
-            nextIntent.putExtra("SELECTED_DAYS", selectedDaysStr);
+            nextIntent.putStringArrayListExtra("SELECTED_DAYS", selectedDays);
+
+            Log.d("Medicine_Days_frequency", "Frequency: " + selectedFrequency);
+            Log.d("Medicine_Days_frequency", "Medicine Name: " + medicineName);
+            Log.d("Medicine_Days_frequency", "Medicine Type: " + medicineType);
+            Log.d("Medicine_Days_frequency", "Selected Days: " + selectedDays.toString());
+
             startActivity(nextIntent);
         });
     }

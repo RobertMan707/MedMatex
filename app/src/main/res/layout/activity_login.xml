@@ -107,7 +107,8 @@
             android:onClick="loginUser"
             android:text="Sign in"
             android:textColor="@color/white"
-            android:transitionName="button_tran" />
+            android:transitionName="button_tran"
+            tools:ignore="OnClick" />
 
         <Button
             android:id="@+id/google_auth"

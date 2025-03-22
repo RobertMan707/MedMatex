@@ -13,19 +13,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-
-import java.util.Properties;
-import java.util.Random;
 
 public class Signup extends AppCompatActivity {
 
@@ -34,14 +25,17 @@ public class Signup extends AppCompatActivity {
     TextInputLayout regName, regUsername, regEmail, regPassword, regConfirmPassword;
     Button regBtn, regToLoginBtn;
 
-    DatabaseReference reference;
-    FirebaseDatabase rootNode;
+    private FirebaseAuth mAuth;
+    private DatabaseReference reference;
 
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+
+        // Initialize Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
 
         regToLoginBtn = findViewById(R.id.login_signup_button);
         image = findViewById(R.id.logo_image);
@@ -77,80 +71,44 @@ public class Signup extends AppCompatActivity {
         if (!validateName() | !validateUsername() | !validateEmail() | !validatePassword() | !validateConfirmPassword()) {
             return;
         }
-        rootNode = FirebaseDatabase.getInstance();
-        reference = rootNode.getReference("users");
 
-        String name = regName.getEditText().getText().toString();
-        String username = regUsername.getEditText().getText().toString();
-        String email = regEmail.getEditText().getText().toString();
-        String password = regPassword.getEditText().getText().toString();
+        String email = regEmail.getEditText().getText().toString().trim();
+        String password = regPassword.getEditText().getText().toString().trim();
 
-        String userId = reference.push().getKey();
-
-        if (userId != null) {
-            UserHelperClass user = new UserHelperClass(name, username, email, password);
-
-            reference.child(userId).setValue(user)
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            String verificationCode = generateVerificationCode();
-                            sendVerificationEmail(email, verificationCode);
-
-                            Intent intent = new Intent(Signup.this, EmailVerification.class);
-                            intent.putExtra("email", email);
-                            intent.putExtra("verificationCode", verificationCode);
-                            startActivity(intent);
-                            finish();
-                        } else {
-                            Toast.makeText(Signup.this, "Registration failed! Please try again.", Toast.LENGTH_SHORT).show();
+        // Create user with Firebase Authentication
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        // User registered successfully
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        if (user != null) {
+                            // Save additional user data to Realtime Database
+                            saveUserDataToDatabase(user.getUid(), email);
                         }
-                    });
-        } else {
-            Toast.makeText(this, "Error generating user ID. Please try again.", Toast.LENGTH_SHORT).show();
-        }
+                    } else {
+                        // Registration failed
+                        Toast.makeText(Signup.this, "Registration failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
-    private String generateVerificationCode() {
-        Random rand = new Random();
-        int verificationCode = rand.nextInt(999999);
-        return String.format("%06d", verificationCode);
-    }
+    private void saveUserDataToDatabase(String userId, String email) {
+        String name = regName.getEditText().getText().toString().trim();
+        String username = regUsername.getEditText().getText().toString().trim();
 
-    private void sendVerificationEmail(String email, String verificationCode) {
-        String host = "smtp.gmail.com";
-        String from = "med.and.mate@gmail.com";
-        String password = "gyln cuxd vnun cpdg";
+        reference = FirebaseDatabase.getInstance().getReference("users");
+        UserHelperClass user = new UserHelperClass(name, username, email, ""); // Don't store password in Realtime Database
 
-        Properties properties = new Properties();
-        properties.put("mail.smtp.host", host);
-        properties.put("mail.smtp.port", "587");
-        properties.put("mail.smtp.auth", "true");
-        properties.put("mail.smtp.starttls.enable", "true");
-
-        try {
-            Session session = Session.getInstance(properties, new javax.mail.Authenticator() {
-                @Override
-                protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication(from, password);
-                }
-            });
-
-            MimeMessage message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(from));
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
-            message.setSubject("Email Verification");
-            message.setText("Your verification code is: " + verificationCode);
-
-            new Thread(() -> {
-                try {
-                    Transport.send(message);
-                } catch (MessagingException e) {
-                    e.printStackTrace();
-                }
-            }).start();
-        } catch (MessagingException e) {
-            e.printStackTrace();
-        }
+        reference.child(userId).setValue(user)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(Signup.this, "Registration successful!", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(Signup.this, Login.class));
+                        finish();
+                    } else {
+                        Toast.makeText(Signup.this, "Failed to save user data: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private Boolean validateName() {
