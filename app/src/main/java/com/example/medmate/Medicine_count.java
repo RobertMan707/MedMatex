@@ -3,14 +3,12 @@ package com.example.medmate;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 
@@ -34,6 +32,7 @@ public class Medicine_count extends AppCompatActivity {
         String medicineType = getIntent().getStringExtra("SELECTED_MEDICINE_TYPE");
         int frequency = getIntent().getIntExtra("SELECTED_FREQUENCY", 1);
         ArrayList<String> selectedTimes = getIntent().getStringArrayListExtra("SELECTED_TIMES");
+        ArrayList<String> selectedDays = getIntent().getStringArrayListExtra("SELECTED_DAYS");
 
         medicineTitle.setText(medicineName + " - " + medicineType);
 
@@ -44,7 +43,7 @@ public class Medicine_count extends AppCompatActivity {
             if (!amountText.isEmpty()) {
                 double amount = Double.parseDouble(amountText);
 
-                passDataToDosageActivity(medicineName, medicineType, frequency, selectedTimes, amount);
+                passDataToDosageActivity(medicineName, medicineType, frequency, selectedTimes, selectedDays, amount);
             } else {
                 Toast.makeText(Medicine_count.this, "Please enter the amount", Toast.LENGTH_SHORT).show();
             }
@@ -73,7 +72,7 @@ public class Medicine_count extends AppCompatActivity {
         }
     }
 
-    private void passDataToDosageActivity(String medicineName, String medicineType, int frequency, ArrayList<String> selectedTimes, double amount) {
+    private void passDataToDosageActivity(String medicineName, String medicineType, int frequency, ArrayList<String> selectedTimes, ArrayList<String> selectedDays, double amount) {
         Intent dosageIntent = new Intent(Medicine_count.this, medicine_dosage_selection.class);
 
         dosageIntent.putExtra("MEDICINE_NAME", medicineName);
@@ -81,6 +80,7 @@ public class Medicine_count extends AppCompatActivity {
         dosageIntent.putExtra("SELECTED_FREQUENCY", frequency);
         dosageIntent.putStringArrayListExtra("SELECTED_TIMES", selectedTimes);
         dosageIntent.putExtra("MEDICINE_AMOUNT", amount);
+        dosageIntent.putExtra("SELECTED_DAYS", selectedDays);
 
         startActivity(dosageIntent);
     }

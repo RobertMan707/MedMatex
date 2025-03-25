@@ -8,9 +8,11 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="#20e5bc">
 
         <TextView
+            android:layout_marginLeft="20dp"
             android:id="@+id/medicine_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -19,6 +21,8 @@
             android:textStyle="bold" />
 
         <TextView
+            android:fontFamily="@font/nunito"
+            android:layout_marginLeft="20dp"
             android:id="@+id/medicine_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -26,6 +30,8 @@
             android:textSize="16sp" />
 
         <TextView
+            android:fontFamily="@font/nunito"
+            android:layout_marginLeft="20dp"
             android:id="@+id/medicine_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -33,13 +39,17 @@
             android:textSize="16sp" />
 
         <TextView
+            android:fontFamily="@font/nunito"
             android:id="@+id/medicine_type"
+            android:layout_marginLeft="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Type: Liquid"
             android:textSize="16sp" />
 
         <TextView
+            android:fontFamily="@font/nunito"
+            android:layout_marginLeft="20dp"
             android:id="@+id/medicine_dosage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -47,6 +57,7 @@
             android:textSize="16sp" />
 
         <TextView
+            android:layout_marginLeft="20dp"
             android:id="@+id/medicine_low_stock_warning"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -56,11 +67,13 @@
             android:textSize="16sp" />
 
         <CheckBox
+            android:fontFamily="@font/nunito"
+            android:layout_marginLeft="20dp"
             android:id="@+id/medicine_checkbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Taken"
-            android:textSize="14sp"
+            android:textSize="20sp"
             android:layout_marginTop="8dp" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>

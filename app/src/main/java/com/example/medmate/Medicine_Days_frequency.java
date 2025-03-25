@@ -20,7 +20,7 @@ public class Medicine_Days_frequency extends AppCompatActivity {
         setContentView(R.layout.activity_medicine_days_frequency);
 
         Intent intent = getIntent();
-        String medicineName = intent.getStringExtra("SELECTED_MEDICINE_NAME");
+        String medicineName = intent.getStringExtra("MEDICINE_NAME");
         String medicineType = intent.getStringExtra("SELECTED_MEDICINE_TYPE");
 
         if (medicineName == null || medicineType == null) {
@@ -40,9 +40,7 @@ public class Medicine_Days_frequency extends AppCompatActivity {
         Button nextButton = findViewById(R.id.nextButton);
 
         nextButton.setOnClickListener(v -> {
-            Toast.makeText(Medicine_Days_frequency.this, "Next button clicked!", Toast.LENGTH_SHORT).show();
-
-            int selectedFrequency = 1; // Default value
+            int selectedFrequency = 1;
             int checkedId = frequencyRadioGroup.getCheckedRadioButtonId();
             if (checkedId == R.id.onceRadioButton) {
                 selectedFrequency = 1;
@@ -53,30 +51,26 @@ public class Medicine_Days_frequency extends AppCompatActivity {
             }
 
             ArrayList<String> selectedDays = new ArrayList<>();
-            if (sundayToggle.isChecked()) selectedDays.add("Sun");
-            if (mondayToggle.isChecked()) selectedDays.add("Mon");
-            if (tuesdayToggle.isChecked()) selectedDays.add("Tue");
-            if (wednesdayToggle.isChecked()) selectedDays.add("Wed");
-            if (thursdayToggle.isChecked()) selectedDays.add("Thu");
-            if (fridayToggle.isChecked()) selectedDays.add("Fri");
-            if (saturdayToggle.isChecked()) selectedDays.add("Sat");
+            if (sundayToggle.isChecked()) selectedDays.add("Sunday");
+            if (mondayToggle.isChecked()) selectedDays.add("Monday");
+            if (tuesdayToggle.isChecked()) selectedDays.add("Tuesday");
+            if (wednesdayToggle.isChecked()) selectedDays.add("Wednesday");
+            if (thursdayToggle.isChecked()) selectedDays.add("Thursday");
+            if (fridayToggle.isChecked()) selectedDays.add("Friday");
+            if (saturdayToggle.isChecked()) selectedDays.add("Saturday");
 
             if (selectedDays.isEmpty()) {
-                Toast.makeText(Medicine_Days_frequency.this, "Please select at least one day!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Please select at least one day!", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            Intent nextIntent = new Intent(Medicine_Days_frequency.this, TimePicker.class);
+            Intent nextIntent = new Intent(this, TimePicker.class);
             nextIntent.putExtra("SELECTED_FREQUENCY", selectedFrequency);
-            nextIntent.putExtra("SELECTED_MEDICINE_NAME", medicineName);
+            nextIntent.putExtra("MEDICINE_NAME", medicineName);
             nextIntent.putExtra("SELECTED_MEDICINE_TYPE", medicineType);
             nextIntent.putStringArrayListExtra("SELECTED_DAYS", selectedDays);
 
-            Log.d("Medicine_Days_frequency", "Frequency: " + selectedFrequency);
-            Log.d("Medicine_Days_frequency", "Medicine Name: " + medicineName);
-            Log.d("Medicine_Days_frequency", "Medicine Type: " + medicineType);
-            Log.d("Medicine_Days_frequency", "Selected Days: " + selectedDays.toString());
-
+            Log.d("DaySelection", "Passing days: " + selectedDays.toString());
             startActivity(nextIntent);
         });
     }

@@ -5,14 +5,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.List;
 
 public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.MedicineViewHolder> {
-    private List<Medicine> medicineList;
+    private final List<Medicine> medicineList;
 
     public MedicineAdapter(List<Medicine> medicineList) {
         this.medicineList = medicineList;
@@ -21,7 +19,8 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.Medici
     @NonNull
     @Override
     public MedicineViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_medicine, parent, false);
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_medicine, parent, false);
         return new MedicineViewHolder(view);
     }
 
@@ -31,23 +30,17 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.Medici
 
         holder.nameTextView.setText(medicine.getName());
         holder.countTextView.setText("Count: " + medicine.getCount());
-        holder.timeTextView.setText("Time: " + medicine.getTime());
+        holder.timeTextView.setText("Time: " + medicine.getTimeSelection());
         holder.typeTextView.setText("Type: " + medicine.getType());
-
-        holder.dosageTextView.setText("Dosage: " + medicine.getDosage() + " " + medicine.getType());
+        holder.dosageTextView.setText("Dosage: " + medicine.getDosage());
 
         if (medicine.getCount() <= Integer.parseInt(medicine.getLowStockReminder())) {
             holder.lowStockWarningTextView.setVisibility(View.VISIBLE);
-            holder.lowStockWarningTextView.setText("Low Stock! Reminder set for " + medicine.getLowStockReminder());
         } else {
             holder.lowStockWarningTextView.setVisibility(View.GONE);
         }
 
         holder.checkbox.setChecked(medicine.isTaken());
-        holder.checkbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            medicine.setTaken(isChecked);
-            markMedicineAsTaken(medicine);
-        });
     }
 
     @Override
@@ -55,12 +48,9 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.Medici
         return medicineList.size();
     }
 
-    private void markMedicineAsTaken(Medicine medicine) {
-
-    }
-
     public static class MedicineViewHolder extends RecyclerView.ViewHolder {
-        TextView nameTextView, countTextView, timeTextView, typeTextView, dosageTextView, lowStockWarningTextView;
+        TextView nameTextView, countTextView, timeTextView,
+                typeTextView, dosageTextView, lowStockWarningTextView;
         CheckBox checkbox;
 
         public MedicineViewHolder(View itemView) {

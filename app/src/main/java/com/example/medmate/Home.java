@@ -3,7 +3,7 @@ package com.example.medmate;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
+import android.util.Log;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,6 +12,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -28,6 +31,7 @@ public class Home extends AppCompatActivity {
     List<Medicine> medicineList = new ArrayList<>();
     DatabaseReference databaseReference;
     TextView nextMedicineTextView;
+    FirebaseAuth mAuth;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -35,6 +39,7 @@ public class Home extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        mAuth = FirebaseAuth.getInstance();
         recyclerView = findViewById(R.id.recyclerView);
         nextMedicineTextView = findViewById(R.id.next_medicine_text);
 
@@ -42,9 +47,16 @@ public class Home extends AppCompatActivity {
         adapter = new MedicineAdapter(medicineList);
         recyclerView.setAdapter(adapter);
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("medicines");
-
-        loadMedicines();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            databaseReference = FirebaseDatabase.getInstance()
+                    .getReference("users")
+                    .child(currentUser.getUid())
+                    .child("medicines");
+            loadMedicines();
+        } else {
+            Log.e("Home", "User not authenticated");
+        }
 
         bottomNav = findViewById(R.id.nav_menu);
         bottomNav.setSelectedItemId(R.id.nav_home);
@@ -73,20 +85,25 @@ public class Home extends AppCompatActivity {
     private void loadMedicines() {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull com.google.firebase.database.DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 medicineList.clear();
-                for (com.google.firebase.database.DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Medicine medicine = snapshot.getValue(Medicine.class);
                     if (medicine != null) {
+                        Log.d("Home", "Loaded medicine: " + medicine.getName());
                         medicineList.add(medicine);
                     }
                 }
                 adapter.notifyDataSetChanged();
+
+                if (medicineList.isEmpty()) {
+                    Log.d("Home", "No medicines found");
+                }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                Log.e("Home", "Database error: " + databaseError.getMessage());
             }
         });
     }
