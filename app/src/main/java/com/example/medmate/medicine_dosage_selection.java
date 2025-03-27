@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 public class medicine_dosage_selection extends AppCompatActivity {
+    private static final String TAG = "DosageSelection";
 
     private EditText editTextDosage, editTextLowStock;
     private Button btnSaveDosage;
@@ -48,8 +49,7 @@ public class medicine_dosage_selection extends AppCompatActivity {
         double amount = intent.getDoubleExtra("MEDICINE_AMOUNT", 0);
         ArrayList<String> selectedDays = intent.getStringArrayListExtra("SELECTED_DAYS");
 
-        // Debug log for incoming data
-        Log.d("DosageSelection", "Received days: " + selectedDays.toString());
+        Log.d(TAG, "Medicine: " + medicineName + ", Days: " + selectedDays);
 
         btnSaveDosage.setOnClickListener(v -> saveMedicine(medicineName, medicineType, frequency,
                 selectedTimes, amount, selectedDays));
@@ -58,6 +58,7 @@ public class medicine_dosage_selection extends AppCompatActivity {
     private void saveMedicine(String medicineName, String medicineType, int frequency,
                               ArrayList<String> selectedTimes, double amount,
                               ArrayList<String> selectedDays) {
+        // Validate input fields
         String dosage = editTextDosage.getText().toString().trim();
         String lowStock = editTextLowStock.getText().toString().trim();
 
@@ -66,15 +67,28 @@ public class medicine_dosage_selection extends AppCompatActivity {
             return;
         }
 
+        // Validate medicine name
+        if (medicineName == null || medicineName.isEmpty()) {
+            Toast.makeText(this, "Medicine name cannot be empty", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Check user authentication
         FirebaseUser user = mAuth.getCurrentUser();
         if (user == null) {
             Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show();
             return;
         }
 
+        // Get reference to user's medicines
         String userId = user.getUid();
-        String medicineId = mDatabase.child("users").child(userId).child("medicines").push().getKey();
+        DatabaseReference userMedicinesRef = FirebaseDatabase.getInstance()
+                .getReference("users")
+                .child(userId)
+                .child("medicines");
 
+        // Create new medicine entry
+        String medicineId = userMedicinesRef.push().getKey();
         Medicine medicine = new Medicine(
                 medicineName,
                 (int) amount,
@@ -87,37 +101,45 @@ public class medicine_dosage_selection extends AppCompatActivity {
                 String.valueOf(amount)
         );
 
+        // Save to Firebase
         if (medicineId != null) {
-            mDatabase.child("users").child(userId).child("medicines")
-                    .child(medicineId).setValue(medicine)
+            userMedicinesRef.child(medicineId).setValue(medicine)
                     .addOnSuccessListener(aVoid -> {
+                        // Schedule alarms only after successful save
                         if (scheduleAllAlarms(medicineName, selectedDays, selectedTimes)) {
-                            Toast.makeText(this, "Medicine saved with reminders!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, "Medicine saved with reminders!",
+                                    Toast.LENGTH_SHORT).show();
                             goToHome();
+                        } else {
+                            // Delete the medicine if alarm scheduling fails
+                            userMedicinesRef.child(medicineId).removeValue();
+                            Toast.makeText(this, "Failed to schedule reminders",
+                                    Toast.LENGTH_SHORT).show();
                         }
                     })
                     .addOnFailureListener(e -> {
-                        Toast.makeText(this, "Save failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Save failed: " + e.getMessage(),
+                                Toast.LENGTH_SHORT).show();
+                        Log.e(TAG, "Firebase save error", e);
                     });
         }
     }
 
     private boolean scheduleAllAlarms(String medicineName, ArrayList<String> selectedDays,
                                       ArrayList<String> selectedTimes) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S &&
-                !AlarmPermissionHelper.hasExactAlarmPermission(this)) {
-            AlarmPermissionHelper.showPermissionRationale(this);
+        Log.d(TAG, "Scheduling alarms for: " + medicineName);
+
+        if (medicineName == null || medicineName.isEmpty()) {
+            Log.e(TAG, "Medicine name is null/empty!");
             return false;
         }
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         boolean allAlarmsSet = true;
 
-        Log.d("AlarmDebug", "Starting to schedule alarms...");
-
         for (String day : selectedDays) {
             int dayOfWeek = convertDayToCalendar(day);
-            Log.d("AlarmDebug", "Processing day: " + day + " → " + dayOfWeek);
+            Log.d(TAG, "Day: " + day + " → " + dayOfWeek);
 
             for (String time : selectedTimes) {
                 if (!scheduleSingleAlarm(alarmManager, medicineName, dayOfWeek, time)) {
@@ -132,18 +154,8 @@ public class medicine_dosage_selection extends AppCompatActivity {
                                         int dayOfWeek, String time) {
         try {
             String[] parts = time.split(":");
-            if (parts.length != 2) {
-                Log.e("TimeError", "Invalid time format: " + time);
-                return false;
-            }
-
             int hour = Integer.parseInt(parts[0]);
             int minute = Integer.parseInt(parts[1]);
-
-            if (hour < 0 || hour > 23 || minute < 0 || minute > 59) {
-                Log.e("TimeError", "Invalid time values: " + hour + ":" + minute);
-                return false;
-            }
 
             Calendar alarmTime = Calendar.getInstance();
             alarmTime.set(Calendar.DAY_OF_WEEK, dayOfWeek);
@@ -159,8 +171,8 @@ public class medicine_dosage_selection extends AppCompatActivity {
             int requestCode = generateUniqueId(dayOfWeek, hour, minute);
             PendingIntent pendingIntent = createPendingIntent(medicineName, requestCode);
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                alarmManager.setExactAndAllowWhileIdle(
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                alarmManager.setAndAllowWhileIdle(
                         AlarmManager.RTC_WAKEUP,
                         alarmTime.getTimeInMillis(),
                         pendingIntent
@@ -173,16 +185,17 @@ public class medicine_dosage_selection extends AppCompatActivity {
                 );
             }
 
-            Log.d("AlarmDebug", "Alarm set for: " + alarmTime.getTime());
+            Log.d(TAG, "Alarm set: " + alarmTime.getTime() + " for " + medicineName);
             return true;
         } catch (Exception e) {
-            Log.e("AlarmError", "Failed to set alarm: ", e);
+            Log.e(TAG, "Alarm error: ", e);
             return false;
         }
     }
 
     private PendingIntent createPendingIntent(String medicineName, int requestCode) {
         Intent intent = new Intent(this, ReminderReceiver.class);
+        intent.setAction("ACTION_MEDICINE_REMINDER_" + requestCode);
         intent.putExtra("MEDICINE_NAME", medicineName);
         intent.putExtra("NOTIFICATION_ID", requestCode);
 
@@ -190,7 +203,7 @@ public class medicine_dosage_selection extends AppCompatActivity {
                 this,
                 requestCode,
                 intent,
-                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE
         );
     }
 
@@ -199,7 +212,6 @@ public class medicine_dosage_selection extends AppCompatActivity {
     }
 
     private int convertDayToCalendar(String day) {
-        // Handle both full and partial day names
         String dayLower = day.toLowerCase();
         if (dayLower.startsWith("sun")) return Calendar.SUNDAY;
         if (dayLower.startsWith("mon")) return Calendar.MONDAY;
@@ -208,9 +220,7 @@ public class medicine_dosage_selection extends AppCompatActivity {
         if (dayLower.startsWith("thu")) return Calendar.THURSDAY;
         if (dayLower.startsWith("fri")) return Calendar.FRIDAY;
         if (dayLower.startsWith("sat")) return Calendar.SATURDAY;
-
-        Log.e("DayError", "Unrecognized day format: " + day);
-        return Calendar.SUNDAY; // Safe default
+        return Calendar.SUNDAY;
     }
 
     private void goToHome() {

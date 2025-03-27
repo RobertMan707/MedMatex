@@ -21,7 +21,7 @@ public class AlarmPermissionHelper {
                 return false;
             }
         }
-        return true; // No restrictions pre-Android 12
+        return true;
     }
 
     public static void requestExactAlarmPermission(Context context) {

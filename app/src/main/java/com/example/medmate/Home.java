@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,14 +25,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Home extends AppCompatActivity {
+    private static final String TAG = "HomeActivity";
 
-    BottomNavigationView bottomNav;
-    RecyclerView recyclerView;
-    MedicineAdapter adapter;
-    List<Medicine> medicineList = new ArrayList<>();
-    DatabaseReference databaseReference;
-    TextView nextMedicineTextView;
-    FirebaseAuth mAuth;
+    private BottomNavigationView bottomNav;
+    private RecyclerView recyclerView;
+    private MedicineAdapter adapter;
+    private List<Medicine> medicineList = new ArrayList<>();
+    private DatabaseReference databaseReference;
+    private TextView nextMedicineTextView;
+    private FirebaseAuth mAuth;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -39,28 +41,43 @@ public class Home extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        initializeViews();
+        setupFirebase();
+        setupRecyclerView();
+        setupBottomNavigation();
+        loadMedicines();
+    }
+
+    private void initializeViews() {
         mAuth = FirebaseAuth.getInstance();
         recyclerView = findViewById(R.id.recyclerView);
         nextMedicineTextView = findViewById(R.id.next_medicine_text);
+        bottomNav = findViewById(R.id.nav_menu);
+    }
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new MedicineAdapter(medicineList);
-        recyclerView.setAdapter(adapter);
-
+    private void setupFirebase() {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
             databaseReference = FirebaseDatabase.getInstance()
                     .getReference("users")
                     .child(currentUser.getUid())
                     .child("medicines");
-            loadMedicines();
         } else {
-            Log.e("Home", "User not authenticated");
+            Log.e(TAG, "User not authenticated");
+            // Redirect to login if user is not authenticated
+            startActivity(new Intent(this, Login.class));
+            finish();
         }
+    }
 
-        bottomNav = findViewById(R.id.nav_menu);
+    private void setupRecyclerView() {
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new MedicineAdapter(medicineList, this);
+        recyclerView.setAdapter(adapter);
+    }
+
+    private void setupBottomNavigation() {
         bottomNav.setSelectedItemId(R.id.nav_home);
-
         bottomNav.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.nav_home) {
@@ -90,21 +107,38 @@ public class Home extends AppCompatActivity {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Medicine medicine = snapshot.getValue(Medicine.class);
                     if (medicine != null) {
-                        Log.d("Home", "Loaded medicine: " + medicine.getName());
+                        medicine.setId(snapshot.getKey());
                         medicineList.add(medicine);
+                        Log.d(TAG, "Loaded medicine: " + medicine.getName());
                     }
                 }
                 adapter.notifyDataSetChanged();
-
-                if (medicineList.isEmpty()) {
-                    Log.d("Home", "No medicines found");
-                }
+                updateNextMedicine();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e("Home", "Database error: " + databaseError.getMessage());
+                Log.e(TAG, "Database error: " + databaseError.getMessage());
+                Toast.makeText(Home.this, "Failed to load medicines", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void updateNextMedicine() {
+        if (!medicineList.isEmpty()) {
+            nextMedicineTextView.setText("Next: " + medicineList.get(0).getName() +
+                    " at " + medicineList.get(0).getTimeSelection());
+        } else {
+            nextMedicineTextView.setText("No medicines scheduled");
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
+        }
     }
 }

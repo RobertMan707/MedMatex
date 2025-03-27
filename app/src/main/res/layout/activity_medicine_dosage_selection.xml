@@ -9,9 +9,9 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Enter Dosage Amount"
+        android:text="Enter Dosage Amount🧪"
         android:layout_gravity="center"
-        android:textSize="36sp"
+        android:textSize="32sp"
         android:fontFamily="@font/playfair_display_bold"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"/>
@@ -20,8 +20,9 @@
         android:id="@+id/editTextDosage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="e.g., 2 pills or 15 ML"
-        android:inputType="text"
+        android:digits="0123456789."
+        android:hint="Enter dosage (e.g., 2.5)"
+        android:inputType="number"
         android:minHeight="48dp" />
 
     <TextView

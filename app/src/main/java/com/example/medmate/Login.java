@@ -112,7 +112,6 @@ public class Login extends AppCompatActivity {
         String email = mail.getEditText() != null ? mail.getEditText().getText().toString().trim() : "";
         String passwordText = password.getEditText() != null ? password.getEditText().getText().toString().trim() : "";
 
-        // Check if email or password is empty
         if (email.isEmpty() || passwordText.isEmpty()) {
             Toast.makeText(Login.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
             return;
@@ -131,7 +130,6 @@ public class Login extends AppCompatActivity {
                             navigateToProfile(user.getEmail());
                         }
                     } else {
-                        // Login failed
                         Toast.makeText(Login.this, "Login failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });

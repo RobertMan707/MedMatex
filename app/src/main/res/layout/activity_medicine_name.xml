@@ -9,12 +9,21 @@
     android:id="@+id/main"
     android:background="#ccecee">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Enter your Medicine Name💊💊"
+        android:textSize="36sp"
+        android:textColor="#0b9e9c"
+        android:gravity="center"
+        android:layout_marginBottom="20dp"/>
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/medicineNameInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Enter Medicine Name"
-        android:layout_marginTop="300dp">
+        android:layout_marginTop="20dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/medicineNameEditText"

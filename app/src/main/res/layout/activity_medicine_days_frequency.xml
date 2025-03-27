@@ -13,7 +13,7 @@
         android:id="@+id/daysTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Select Days"
+        android:text="Select Days📅📅"
         android:textSize="36sp"
         android:textColor="#0b9e9c"
         android:fontFamily="sans-serif-medium"
