@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="#ccecee">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Write your medicine name🧰🧰"
+        android:textColor="#063970"
+        android:textSize="36sp"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"/>
+
+    <EditText
+        android:id="@+id/etChestName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:hint="e.g., 'Home First-Aid Kit'"
+        android:inputType="textCapWords"
+        android:minHeight="48dp"
+        android:textColor="#063970"
+        android:textColorHint="#09a5a0" />
+
+    <Button
+        android:layout_gravity="center"
+        android:id="@+id/btnNext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Next"
+        android:layout_marginTop="30dp"
+        android:backgroundTint="#0000"
+        android:textColor="@color/black"
+        android:textSize="40sp"/>
+</LinearLayout>
