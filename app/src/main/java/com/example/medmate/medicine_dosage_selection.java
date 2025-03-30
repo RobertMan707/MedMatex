@@ -23,6 +23,7 @@ import java.util.Calendar;
 
 public class medicine_dosage_selection extends AppCompatActivity {
     private static final String TAG = "DosageSelection";
+    private static final int EXACT_ALARM_PERMISSION_REQUEST = 101;
 
     private EditText editTextDosage, editTextLowStock;
     private Button btnSaveDosage;
@@ -34,13 +35,16 @@ public class medicine_dosage_selection extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_medicine_dosage_selection);
 
+        // Initialize views
         editTextDosage = findViewById(R.id.editTextDosage);
         editTextLowStock = findViewById(R.id.editTextLowStock);
         btnSaveDosage = findViewById(R.id.btnSaveDosage);
 
+        // Initialize Firebase
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
+        // Get intent data
         Intent intent = getIntent();
         String medicineName = intent.getStringExtra("MEDICINE_NAME");
         String medicineType = intent.getStringExtra("SELECTED_MEDICINE_TYPE");
@@ -51,8 +55,14 @@ public class medicine_dosage_selection extends AppCompatActivity {
 
         Log.d(TAG, "Medicine: " + medicineName + ", Days: " + selectedDays);
 
-        btnSaveDosage.setOnClickListener(v -> saveMedicine(medicineName, medicineType, frequency,
-                selectedTimes, amount, selectedDays));
+        btnSaveDosage.setOnClickListener(v -> {
+            // Check exact alarm permission before proceeding
+            if (!AlarmPermissionHelper.hasExactAlarmPermission(this)) {
+                AlarmPermissionHelper.showPermissionRationale(this);
+                return;
+            }
+            saveMedicine(medicineName, medicineType, frequency, selectedTimes, amount, selectedDays);
+        });
     }
 
     private void saveMedicine(String medicineName, String medicineType, int frequency,
@@ -82,8 +92,7 @@ public class medicine_dosage_selection extends AppCompatActivity {
 
         // Get reference to user's medicines
         String userId = user.getUid();
-        DatabaseReference userMedicinesRef = FirebaseDatabase.getInstance()
-                .getReference("users")
+        DatabaseReference userMedicinesRef = mDatabase.child("users")
                 .child(userId)
                 .child("medicines");
 
@@ -105,7 +114,6 @@ public class medicine_dosage_selection extends AppCompatActivity {
         if (medicineId != null) {
             userMedicinesRef.child(medicineId).setValue(medicine)
                     .addOnSuccessListener(aVoid -> {
-                        // Schedule alarms only after successful save
                         if (scheduleAllAlarms(medicineName, selectedDays, selectedTimes)) {
                             Toast.makeText(this, "Medicine saved with reminders!",
                                     Toast.LENGTH_SHORT).show();
@@ -129,14 +137,13 @@ public class medicine_dosage_selection extends AppCompatActivity {
                                       ArrayList<String> selectedTimes) {
         Log.d(TAG, "Scheduling alarms for: " + medicineName);
 
-        if (medicineName == null || medicineName.isEmpty()) {
-            Log.e(TAG, "Medicine name is null/empty!");
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        if (alarmManager == null) {
+            Log.e(TAG, "AlarmManager is null");
             return false;
         }
 
-        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         boolean allAlarmsSet = true;
-
         for (String day : selectedDays) {
             int dayOfWeek = convertDayToCalendar(day);
             Log.d(TAG, "Day: " + day + " → " + dayOfWeek);
@@ -164,6 +171,7 @@ public class medicine_dosage_selection extends AppCompatActivity {
             alarmTime.set(Calendar.SECOND, 0);
             alarmTime.set(Calendar.MILLISECOND, 0);
 
+            // If time is in past, schedule for next week
             if (alarmTime.before(Calendar.getInstance())) {
                 alarmTime.add(Calendar.DAY_OF_YEAR, 7);
             }
@@ -171,24 +179,29 @@ public class medicine_dosage_selection extends AppCompatActivity {
             int requestCode = generateUniqueId(dayOfWeek, hour, minute);
             PendingIntent pendingIntent = createPendingIntent(medicineName, requestCode);
 
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                if (!alarmManager.canScheduleExactAlarms()) {
+                    Log.e(TAG, "Exact alarm permission not granted");
+                    return false;
+                }
+            }
+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                alarmManager.setAndAllowWhileIdle(
+                alarmManager.setExactAndAllowWhileIdle(
                         AlarmManager.RTC_WAKEUP,
                         alarmTime.getTimeInMillis(),
-                        pendingIntent
-                );
+                        pendingIntent);
             } else {
                 alarmManager.setExact(
                         AlarmManager.RTC_WAKEUP,
                         alarmTime.getTimeInMillis(),
-                        pendingIntent
-                );
+                        pendingIntent);
             }
 
             Log.d(TAG, "Alarm set: " + alarmTime.getTime() + " for " + medicineName);
             return true;
         } catch (Exception e) {
-            Log.e(TAG, "Alarm error: ", e);
+            Log.e(TAG, "Alarm scheduling error: ", e);
             return false;
         }
     }
@@ -199,11 +212,16 @@ public class medicine_dosage_selection extends AppCompatActivity {
         intent.putExtra("MEDICINE_NAME", medicineName);
         intent.putExtra("NOTIFICATION_ID", requestCode);
 
+        int flags = PendingIntent.FLAG_UPDATE_CURRENT;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            flags |= PendingIntent.FLAG_IMMUTABLE;
+        }
+
         return PendingIntent.getBroadcast(
                 this,
                 requestCode,
                 intent,
-                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE
+                flags
         );
     }
 
@@ -212,19 +230,33 @@ public class medicine_dosage_selection extends AppCompatActivity {
     }
 
     private int convertDayToCalendar(String day) {
-        String dayLower = day.toLowerCase();
-        if (dayLower.startsWith("sun")) return Calendar.SUNDAY;
-        if (dayLower.startsWith("mon")) return Calendar.MONDAY;
-        if (dayLower.startsWith("tue")) return Calendar.TUESDAY;
-        if (dayLower.startsWith("wed")) return Calendar.WEDNESDAY;
-        if (dayLower.startsWith("thu")) return Calendar.THURSDAY;
-        if (dayLower.startsWith("fri")) return Calendar.FRIDAY;
-        if (dayLower.startsWith("sat")) return Calendar.SATURDAY;
-        return Calendar.SUNDAY;
+        switch (day.toLowerCase()) {
+            case "monday": return Calendar.MONDAY;
+            case "tuesday": return Calendar.TUESDAY;
+            case "wednesday": return Calendar.WEDNESDAY;
+            case "thursday": return Calendar.THURSDAY;
+            case "friday": return Calendar.FRIDAY;
+            case "saturday": return Calendar.SATURDAY;
+            default: return Calendar.SUNDAY;
+        }
     }
 
     private void goToHome() {
         startActivity(new Intent(this, Home.class));
         finish();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == EXACT_ALARM_PERMISSION_REQUEST) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+                if (alarmManager != null && alarmManager.canScheduleExactAlarms()) {
+                    // Permission granted, retry saving
+                    btnSaveDosage.performClick();
+                }
+            }
+        }
     }
 }

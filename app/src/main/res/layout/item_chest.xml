@@ -2,6 +2,7 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
@@ -13,8 +14,9 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp"
-        android:background="#20e5bc">
+        android:background="#96dce4">
 
+        <!-- Chest Info -->
         <TextView
             android:id="@+id/tv_chest_name"
             android:layout_width="match_parent"
@@ -31,5 +33,38 @@
             android:textColor="#09a5a0"
             android:textSize="14sp"/>
 
+        <!-- Action Buttons Row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:padding="8dp"
+            tools:ignore="ExtraText">
+
+            <Button
+                android:id="@+id/btn_add_medicine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add"
+                android:drawableLeft="@drawable/baseline_add_24"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+            android:drawablePadding="8dp"
+            android:backgroundTint="#7cfaed"/>
+
+            <Button
+                android:id="@+id/btn_show_medicines"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="View"
+                android:textSize="24sp"
+                android:textColor="@color/black"
+            android:drawablePadding="8dp"
+            android:backgroundTint="#7cfaed"/>
+        </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

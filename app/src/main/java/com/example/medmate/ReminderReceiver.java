@@ -1,5 +1,6 @@
 package com.example.medmate;
 
+import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -12,22 +13,26 @@ import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 
+import java.util.Calendar;
+
 public class ReminderReceiver extends BroadcastReceiver {
-    private static final String TAG = "ReminderReceiver";
     private static final String CHANNEL_ID = "MED_REMINDER_CHANNEL";
+    private static final String TAG = "ReminderReceiver";
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.d(TAG, "Received intent: " + intent.getExtras());
+        Log.d(TAG, "Received reminder intent");
 
         String medicineName = intent.getStringExtra("MEDICINE_NAME");
         if (medicineName == null) {
-            Log.e(TAG, "Medicine name is null! Using fallback");
-            medicineName = "Your Medicine";
+            medicineName = "Your medication";
         }
 
         int notificationId = intent.getIntExtra("NOTIFICATION_ID", 0);
         showNotification(context, medicineName, notificationId);
+
+        // Reschedule for next week
+        rescheduleAlarm(context, intent);
     }
 
     private void showNotification(Context context, String medicineName, int notificationId) {
@@ -38,7 +43,7 @@ public class ReminderReceiver extends BroadcastReceiver {
                 context,
                 0,
                 appIntent,
-                PendingIntent.FLAG_IMMUTABLE
+                PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT
         );
 
         Notification notification = new NotificationCompat.Builder(context, CHANNEL_ID)
@@ -48,16 +53,53 @@ public class ReminderReceiver extends BroadcastReceiver {
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
+                .setCategory(NotificationCompat.CATEGORY_REMINDER)
                 .build();
 
         NotificationManager manager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        try {
+        if (manager != null) {
             manager.notify(notificationId, notification);
             Log.d(TAG, "Notification shown for: " + medicineName);
-        } catch (SecurityException e) {
-            Log.e(TAG, "Notification failed: ", e);
         }
+    }
+
+    private void rescheduleAlarm(Context context, Intent originalIntent) {
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        if (alarmManager == null) return;
+
+        int requestCode = originalIntent.getIntExtra("NOTIFICATION_ID", 0);
+        String medicineName = originalIntent.getStringExtra("MEDICINE_NAME");
+
+        PendingIntent pendingIntent = createPendingIntent(context, medicineName, requestCode);
+
+        Calendar nextAlarm = Calendar.getInstance();
+        nextAlarm.add(Calendar.DAY_OF_YEAR, 7); // Schedule for same time next week
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            alarmManager.setExactAndAllowWhileIdle(
+                    AlarmManager.RTC_WAKEUP,
+                    nextAlarm.getTimeInMillis(),
+                    pendingIntent);
+        } else {
+            alarmManager.setExact(
+                    AlarmManager.RTC_WAKEUP,
+                    nextAlarm.getTimeInMillis(),
+                    pendingIntent);
+        }
+    }
+
+    private PendingIntent createPendingIntent(Context context, String medicineName, int requestCode) {
+        Intent intent = new Intent(context, ReminderReceiver.class);
+        intent.putExtra("MEDICINE_NAME", medicineName);
+        intent.putExtra("NOTIFICATION_ID", requestCode);
+
+        return PendingIntent.getBroadcast(
+                context,
+                requestCode,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+        );
     }
 
     private void createNotificationChannel(Context context) {
@@ -68,10 +110,14 @@ public class ReminderReceiver extends BroadcastReceiver {
                     NotificationManager.IMPORTANCE_HIGH
             );
             channel.setDescription("Alerts for medication schedules");
+            channel.enableVibration(true);
+            channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
 
             NotificationManager manager =
                     context.getSystemService(NotificationManager.class);
-            manager.createNotificationChannel(channel);
+            if (manager != null) {
+                manager.createNotificationChannel(channel);
+            }
         }
     }
 }
