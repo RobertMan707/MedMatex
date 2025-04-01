@@ -5,14 +5,15 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"
+    <uses-permission
+        android:name="android.permission.SCHEDULE_EXACT_ALARM"
         tools:ignore="ProtectedPermissions" />
-    <uses-permission android:name="android.permission.USE_EXACT_ALARM"
+    <uses-permission
+        android:name="android.permission.USE_EXACT_ALARM"
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-
 
     <application
         android:allowBackup="true"
@@ -24,8 +25,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MedMate"
         tools:targetApi="31">
-
-
+        <activity
+            android:name=".AddMedicineActivity"
+            android:exported="false" />
         <activity
             android:name=".ChestSizeActivity"
             android:exported="false" />
@@ -103,6 +105,7 @@
                 <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

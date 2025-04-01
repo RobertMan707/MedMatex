@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="#96dce4">
+
+    <!-- Medicine Name -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Medicine Name"
+        android:textColor="#063970"
+        android:textSize="18sp"/>
+
+    <EditText
+        android:id="@+id/edit_medicine_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="e.g., Paracetamol"
+        android:minHeight="48dp"
+        android:textColor="#063970" />
+
+    <!-- Expiry Date -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Expiry Date"
+        android:layout_marginTop="16dp"
+        android:textColor="#063970"
+        android:textSize="18sp"/>
+
+    <EditText
+        android:id="@+id/edit_expiry_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="false"
+        android:hint="Click to pick date"
+        android:minHeight="48dp"
+        android:onClick="showDatePickerDialog"
+        android:textColor="#063970"
+        android:textColorHint="#455A64" />
+
+    <!-- Reminder Days -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Reminder Days (Before Expiry)"
+        android:layout_marginTop="16dp"
+        android:textColor="#063970"
+        android:textSize="18sp"/>
+
+    <EditText
+        android:id="@+id/edit_reminder_days"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="e.g., 7"
+        android:inputType="number"
+        android:minHeight="48dp"
+        android:textColor="#063970" />
+
+    <!-- Save Button -->
+    <Button
+        android:id="@+id/btn_save_medicine"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Save Medicine"
+        android:backgroundTint="#7cfaed"
+        android:textColor="#063970"/>
+</LinearLayout>

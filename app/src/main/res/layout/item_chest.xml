@@ -16,7 +16,6 @@
         android:padding="16dp"
         android:background="#96dce4">
 
-        <!-- Chest Info -->
         <TextView
             android:id="@+id/tv_chest_name"
             android:layout_width="match_parent"
