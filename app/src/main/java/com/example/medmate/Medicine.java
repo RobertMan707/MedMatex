@@ -41,7 +41,6 @@ public class Medicine {
     public String getLowStockReminder() { return lowStockReminder != null ? lowStockReminder : "5"; } // Default threshold
     public String getMedicineStock() { return medicineStock != null ? medicineStock : "0"; }
 
-    // Setters with null checks
     public void setId(String id) { this.id = id; }
     public void setName(String name) { this.name = name != null ? name : ""; }
     public void setCount(int count) { this.count = Math.max(count, 0); } // Prevent negative counts

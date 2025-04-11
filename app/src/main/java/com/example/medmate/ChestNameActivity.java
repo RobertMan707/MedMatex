@@ -24,7 +24,6 @@ public class ChestNameActivity extends AppCompatActivity {
             if (chestName.isEmpty()) {
                 Toast.makeText(this, "Please enter a chest name", Toast.LENGTH_SHORT).show();
             } else {
-                // Pass the name to ChestSizeActivity
                 Intent intent = new Intent(ChestNameActivity.this, ChestSizeActivity.class);
                 intent.putExtra("CHEST_NAME", chestName);
                 startActivity(intent);

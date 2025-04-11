@@ -32,7 +32,7 @@ public class AlarmPermissionHelper {
                 context.startActivity(intent);
             } catch (Exception e) {
                 Log.e(TAG, "Failed to launch permission intent", e);
-                // Fallback to app settings
+
                 Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
                 intent.setData(android.net.Uri.parse("package:" + context.getPackageName()));
                 context.startActivity(intent);

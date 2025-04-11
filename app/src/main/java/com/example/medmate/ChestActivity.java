@@ -33,21 +33,17 @@ public class ChestActivity extends AppCompatActivity {
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        // Initialize RecyclerView
         recyclerView = findViewById(R.id.recycler_view_chests);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new ChestAdapter(chestList);
         recyclerView.setAdapter(adapter);
 
-        // Load chests
         loadChestsFromRealtimeDB();
 
-        // Button click
         findViewById(R.id.add_chest_button).setOnClickListener(v -> {
             startActivity(new Intent(ChestActivity.this, ChestNameActivity.class));
         });
 
-        // Bottom Navigation
         BottomNavigationView bottomNav = findViewById(R.id.nav_menu);
         bottomNav.setSelectedItemId(R.id.nav_chest);
         bottomNav.setOnItemSelectedListener(this::handleNavigation);

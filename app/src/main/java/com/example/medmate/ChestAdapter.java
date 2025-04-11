@@ -14,7 +14,6 @@ public class ChestAdapter extends RecyclerView.Adapter<ChestAdapter.ChestViewHol
 
     private List<MedicineChest> chestList;
 
-    // Constructor
     public ChestAdapter(List<MedicineChest> chestList) {
         this.chestList = chestList;
     }
@@ -33,7 +32,6 @@ public class ChestAdapter extends RecyclerView.Adapter<ChestAdapter.ChestViewHol
         holder.tvChestName.setText(chest.getName());
         holder.tvChestSize.setText("Capacity: " + chest.getSize());
 
-        // Set the chestId as a tag for the "Add" button
         holder.itemView.setTag(chest.getChestId());
     }
 
@@ -60,12 +58,16 @@ public class ChestAdapter extends RecyclerView.Adapter<ChestAdapter.ChestViewHol
                 intent.putExtra("CHEST_ID", chestId);
                 itemView.getContext().startActivity(intent);
             });
-
+            btnShowMedicines.setOnClickListener(v -> {
+                String chestId = (String) itemView.getTag();
+                Intent intent = new Intent(itemView.getContext(),MedicineView.class);
+                intent.putExtra("CHEST_ID", chestId);
+                itemView.getContext().startActivity(intent);
+            });
 
         }
     }
 
-    // Update data method (for refreshing the list)
     public void updateData(List<MedicineChest> newChestList) {
         chestList = newChestList;
         notifyDataSetChanged();

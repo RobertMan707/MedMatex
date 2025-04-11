@@ -75,21 +75,18 @@ public class AddMedicineActivity extends AppCompatActivity {
             return;
         }
 
-        // Generate unique ID for medID
         String medID = database.push().getKey();
         if (medID == null) {
             Toast.makeText(this, "Failed to generate medicine ID!", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // Create medicine object
         Map<String, Object> medicine = new HashMap<>();
         medicine.put("medID", medID); // Explicitly include medID
         medicine.put("name", name);
         medicine.put("expiry_date", expiryDate);
         medicine.put("reminder_days", reminderDays);
 
-        // Save to Firebase under "med"
         database.child(medID).setValue(medicine)
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(this, "Medicine saved!", Toast.LENGTH_SHORT).show();

@@ -5,12 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-// Create this new file BootReceiver.java
 public class BootReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
-            // Add code to reschedule all alarms from Firebase
+
             Log.d("BootReceiver", "Device rebooted - rescheduling alarms");
         }
     }

@@ -2,70 +2,30 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:padding="16dp"
-    android:layout_marginBottom="8dp"
-    android:background="#A4DADD">
+    android:background="#FFFFFF"
+    android:layout_margin="8dp"
+    android:elevation="4dp">
 
-    <ImageView
-        android:id="@+id/medicineImage"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/mymed" />
-
-    <LinearLayout
-        android:layout_width="0dp"
+    <TextView
+        android:id="@+id/medicine_name"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginLeft="16dp"
-        android:layout_weight="1">
+        android:textSize="18sp"
+        android:textColor="#063970"/>
 
-        <TextView
-            android:layout_gravity="center"
-            android:id="@+id/tv_medicine_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Medicine Name"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+    <TextView
+        android:id="@+id/expiry_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textColor="#455A64"/>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="20dp"
-            android:layout_gravity="center">
-
-            <TextView
-                android:id="@+id/tv_medicine_type"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Type"
-                android:textSize="16sp"
-                android:layout_marginRight="20dp" />
-
-            <TextView
-                android:id="@+id/tv_medicine_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Time"
-                android:textSize="16sp"
-                android:layout_marginRight="20dp" />
-
-            <TextView
-                android:id="@+id/tv_medicine_stock"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Stock"
-                android:textSize="16sp" />
-        </LinearLayout>
-
-        <CheckBox
-            android:id="@+id/cb_medicine_taken"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Taken"
-            android:layout_gravity="center" />
-    </LinearLayout>
-
+    <TextView
+        android:id="@+id/reminder_days"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textColor="#455A64"/>
 </LinearLayout>
