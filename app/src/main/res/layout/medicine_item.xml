@@ -4,9 +4,10 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="16dp"
-    android:background="#FFFFFF"
+    android:background="#96dce4"
     android:layout_margin="8dp"
-    android:elevation="4dp">
+    android:elevation="4dp"
+    >
 
     <TextView
         android:id="@+id/medicine_name"
