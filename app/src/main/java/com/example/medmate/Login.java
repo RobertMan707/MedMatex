@@ -12,11 +12,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class Login extends AppCompatActivity {
 
@@ -143,9 +149,28 @@ public class Login extends AppCompatActivity {
     }
 
     private void navigateToProfile(String email) {
-        Intent intent = new Intent(getApplicationContext(), Profile.class);
-        intent.putExtra("email", email);
-        startActivity(intent);
-        finish();
+        // Get reference to user data in Firebase
+        String userId = mAuth.getCurrentUser().getUid();
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(userId);
+
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                UserHelperClass user = snapshot.getValue(UserHelperClass.class);
+                if (user != null) {
+                    Intent intent = new Intent(Login.this, Profile.class);
+                    intent.putExtra("name", user.getName());
+                    intent.putExtra("username", user.getUsername());
+                    intent.putExtra("email", user.getEmail());
+                    startActivity(intent);
+                    finish();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(Login.this, "Failed to load user data", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

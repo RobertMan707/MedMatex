@@ -64,15 +64,25 @@ public class Profile extends AppCompatActivity {
     }
 
     private void showAllUserData() {
-        // Get the data passed from the previous activity (for example, from login)
         Intent intent = getIntent();
-        String user_name = intent.getStringExtra("name");
-        String user_email = intent.getStringExtra("email");
-        String user_username = intent.getStringExtra("username");
 
-        // Display the user data in the profile view
+        // Get data from intent
+        String user_name = intent.getStringExtra("name");
+        String user_username = intent.getStringExtra("username");
+        String user_email = intent.getStringExtra("email");
+
+        // Set default values if null
+        if (user_name == null) user_name = "No name set";
+        if (user_username == null) user_username = "No username set";
+        if (user_email == null) user_email = "No email set";
+
+        // Display data
         fullNameLabel.setText(user_name);
-        userName.getEditText().setText(user_username);
-        email.getEditText().setText(user_email);
+        if (userName.getEditText() != null) {
+            userName.getEditText().setText(user_username);
+        }
+        if (email.getEditText() != null) {
+            email.getEditText().setText(user_email);
+        }
     }
 }
