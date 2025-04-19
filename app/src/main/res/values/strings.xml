@@ -2,4 +2,6 @@
     <string name="app_name">MedMate</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="edit_medicine">edit_medicine</string>
+    <string name="delete_medicine">delete_medicine</string>
 </resources>

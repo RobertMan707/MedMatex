@@ -12,7 +12,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Enter your Medicine Name💊💊"
+        android:text="Enter your Medicine Name💊"
         android:textSize="36sp"
         android:textColor="#0b9e9c"
         android:gravity="center"

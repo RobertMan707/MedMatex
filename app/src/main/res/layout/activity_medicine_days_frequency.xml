@@ -13,7 +13,7 @@
         android:id="@+id/daysTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Select Days📅📅"
+        android:text="Select Days📅"
         android:textSize="36sp"
         android:textColor="#0b9e9c"
         android:fontFamily="sans-serif-medium"
@@ -135,35 +135,21 @@
         android:gravity="center"
         android:layout_marginTop="32dp"/>
 
-    <RadioGroup
-        android:id="@+id/frequencyRadioGroup"
+    <NumberPicker
+        android:id="@+id/frequencyNumberPicker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="16dp"
-        android:gravity="center">
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"/>
 
-        <RadioButton
-            android:id="@+id/onceRadioButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Once a Day"
-            android:textColor="#0a6f6b"/>
-
-        <RadioButton
-            android:id="@+id/twiceRadioButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Twice a Day"
-            android:textColor="#0a6f6b"/>
-
-        <RadioButton
-            android:id="@+id/thriceRadioButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Three Times a Day"
-            android:textColor="#0a6f6b"/>
-    </RadioGroup>
+    <TextView
+        android:id="@+id/frequencyHint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="times per day"
+        android:textSize="18sp"
+        android:textColor="#0a6f6b"
+        android:layout_marginTop="8dp"/>
 
     <Button
         android:id="@+id/nextButton"

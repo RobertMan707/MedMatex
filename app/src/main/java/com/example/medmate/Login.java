@@ -75,7 +75,7 @@ public class Login extends AppCompatActivity {
         login_btn.setOnClickListener(v -> loginUser());
 
         guestLoginBtn.setOnClickListener(v -> {
-            navigateToProfile("Guest");
+            navigateToProfile();
         });
     }
 
@@ -83,7 +83,7 @@ public class Login extends AppCompatActivity {
         boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
         if (isLoggedIn) {
             String savedEmail = sharedPreferences.getString("email", "");
-            navigateToProfile(savedEmail);
+            navigateToProfile();
         }
     }
 
@@ -133,7 +133,7 @@ public class Login extends AppCompatActivity {
                             if (rememberMe.isChecked()) {
                                 saveLoginState(user.getEmail());
                             }
-                            navigateToProfile(user.getEmail());
+                            navigateToProfile();
                         }
                     } else {
                         Toast.makeText(Login.this, "Login failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
@@ -148,29 +148,8 @@ public class Login extends AppCompatActivity {
         editor.apply();
     }
 
-    private void navigateToProfile(String email) {
-        // Get reference to user data in Firebase
-        String userId = mAuth.getCurrentUser().getUid();
-        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(userId);
-
-        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                UserHelperClass user = snapshot.getValue(UserHelperClass.class);
-                if (user != null) {
-                    Intent intent = new Intent(Login.this, Profile.class);
-                    intent.putExtra("name", user.getName());
-                    intent.putExtra("username", user.getUsername());
-                    intent.putExtra("email", user.getEmail());
-                    startActivity(intent);
-                    finish();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(Login.this, "Failed to load user data", Toast.LENGTH_SHORT).show();
-            }
-        });
+    private void navigateToProfile() {
+        startActivity(new Intent(Login.this, Profile.class));
+        finish();
     }
 }

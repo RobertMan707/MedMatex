@@ -1,79 +1,108 @@
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    android:padding="16dp"
+    android:padding="8dp"
     android:elevation="4dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:background="#96dce4">
 
-        <TextView
-            android:layout_marginLeft="20dp"
-            android:id="@+id/medicine_name"
-            android:layout_width="wrap_content"
+        <!-- Medicine Info (Left Side) -->
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Medicine Name"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="8dp">
 
-        <TextView
-            android:fontFamily="@font/nunito"
-            android:layout_marginLeft="20dp"
-            android:id="@+id/medicine_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Count: 0"
-            android:textSize="16sp" />
+            <TextView
+                android:id="@+id/medicine_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Medicine Name"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
-        <TextView
-            android:fontFamily="@font/nunito"
-            android:layout_marginLeft="20dp"
-            android:id="@+id/medicine_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Time: 8:00 AM"
-            android:textSize="16sp" />
+            <TextView
+                android:id="@+id/medicine_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Count: 0"
+                android:textSize="14sp" />
 
-        <TextView
-            android:fontFamily="@font/nunito"
-            android:id="@+id/medicine_type"
-            android:layout_marginLeft="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Type: Liquid"
-            android:textSize="16sp" />
+            <TextView
+                android:id="@+id/medicine_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Time: 8:00 AM"
+                android:textSize="14sp" />
 
-        <TextView
-            android:fontFamily="@font/nunito"
-            android:layout_marginLeft="20dp"
-            android:id="@+id/medicine_dosage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Dosage: 10 mg"
-            android:textSize="16sp" />
+            <TextView
+                android:id="@+id/medicine_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Type: Liquid"
+                android:textSize="14sp" />
 
-        <TextView
-            android:layout_marginLeft="20dp"
-            android:id="@+id/medicine_low_stock_warning"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Low Stock!"
-            android:textColor="@android:color/holo_red_light"
-            android:visibility="gone"
-            android:textSize="16sp" />
+            <TextView
+                android:id="@+id/medicine_dosage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dosage: 10 mg"
+                android:textSize="14sp" />
 
-        <CheckBox
-            android:fontFamily="@font/nunito"
-            android:layout_marginLeft="20dp"
-            android:id="@+id/medicine_checkbox"
+            <TextView
+                android:id="@+id/medicine_low_stock_warning"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Low Stock!"
+                android:textColor="@android:color/holo_red_light"
+                android:visibility="gone"
+                android:textSize="14sp" />
+
+            <CheckBox
+                android:id="@+id/medicine_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Taken"
+                android:textSize="16sp"
+                android:layout_marginTop="4dp" />
+        </LinearLayout>
+
+        <!-- Action Buttons (Right Side) -->
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Taken"
-            android:textSize="20sp"
-            android:layout_marginTop="8dp" />
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="8dp">
+
+            <ImageButton
+                android:id="@+id/btn_edit"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/edit_medicine"
+                android:padding="4dp"
+                android:src="@drawable/ic_edit"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <ImageButton
+                android:id="@+id/btn_delete"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="8dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/delete_medicine"
+                android:padding="4dp"
+                android:src="@drawable/ic_delete_"
+                tools:ignore="TouchTargetSizeCheck" />
+        </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

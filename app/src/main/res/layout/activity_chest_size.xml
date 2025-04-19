@@ -35,7 +35,7 @@
             android:id="@+id/radioSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Small (10 medicines)"
+            android:text="Small (30 medicines)"
             android:textColor="#063970"
             android:textSize="20sp"/>
 
@@ -43,7 +43,7 @@
             android:id="@+id/radioMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Medium (30 medicines)"
+            android:text="Medium (60 medicines)"
             android:textColor="#063970"
             android:textSize="20sp"/>
 
@@ -51,7 +51,14 @@
             android:id="@+id/radioLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Large (50 medicines)"
+            android:text="Large (100 medicines)"
+            android:textColor="#063970"
+            android:textSize="20sp"/>
+        <RadioButton
+            android:id="@+id/radioUnlimited"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Unlimited medicines"
             android:textColor="#063970"
             android:textSize="20sp"/>
     </RadioGroup>
