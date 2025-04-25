@@ -16,7 +16,6 @@ public class Medicine_Days_frequency extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_medicine_days_frequency);
 
-        // Get medicine data from intent
         Intent intent = getIntent();
         String medicineName = intent.getStringExtra("MEDICINE_NAME");
         String medicineType = intent.getStringExtra("SELECTED_MEDICINE_TYPE");
@@ -36,12 +35,11 @@ public class Medicine_Days_frequency extends AppCompatActivity {
         ToggleButton fridayToggle = findViewById(R.id.fridayToggleButton);
         ToggleButton saturdayToggle = findViewById(R.id.saturdayToggleButton);
 
-        // Initialize and configure NumberPicker (1-6 times/day)
         NumberPicker frequencyNumberPicker = findViewById(R.id.frequencyNumberPicker);
-        frequencyNumberPicker.setMinValue(1);  // Minimum 1 time/day
-        frequencyNumberPicker.setMaxValue(6);  // Maximum 6 times/day
-        frequencyNumberPicker.setValue(1);     // Default to 1 time/day
-        frequencyNumberPicker.setWrapSelectorWheel(false); // Prevent infinite scrolling
+        frequencyNumberPicker.setMinValue(1);
+        frequencyNumberPicker.setMaxValue(5);
+        frequencyNumberPicker.setValue(1);
+        frequencyNumberPicker.setWrapSelectorWheel(false);
 
 
 
@@ -50,7 +48,6 @@ public class Medicine_Days_frequency extends AppCompatActivity {
         nextButton.setOnClickListener(v -> {
             int selectedFrequency = frequencyNumberPicker.getValue();
 
-            // Collect selected days
             ArrayList<String> selectedDays = new ArrayList<>();
             if (sundayToggle.isChecked()) selectedDays.add("Sunday");
             if (mondayToggle.isChecked()) selectedDays.add("Monday");

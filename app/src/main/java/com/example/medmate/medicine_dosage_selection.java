@@ -2,7 +2,6 @@ package com.example.medmate;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -253,7 +252,6 @@ public class medicine_dosage_selection extends AppCompatActivity {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
                 if (alarmManager != null && alarmManager.canScheduleExactAlarms()) {
-                    // Permission granted, retry saving
                     btnSaveDosage.performClick();
                 }
             }

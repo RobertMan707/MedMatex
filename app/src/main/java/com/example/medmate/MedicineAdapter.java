@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -127,7 +126,7 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.Medici
                 .build();
 
         NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        manager.notify(medicineName.hashCode(), notification); // Unique ID for each medicine
+        manager.notify(medicineName.hashCode(), notification);
     }
 
     public static class MedicineViewHolder extends RecyclerView.ViewHolder {

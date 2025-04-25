@@ -34,7 +34,7 @@ public class AddActivity extends AppCompatActivity {
                     overridePendingTransition(0, 0);
                     return true;
                 } else if (itemId == R.id.nav_add) {
-                    return true;  // Stay in AddActivity
+                    return true;
                 } else if (itemId == R.id.nav_chest) {
                     startActivity(new Intent(AddActivity.this, ChestActivity.class));
                     overridePendingTransition(0, 0);

@@ -1,6 +1,5 @@
 package com.example.medmate;
 
-import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
