@@ -74,10 +74,9 @@ public class RescheduleAlarmsService extends IntentService {
         }
     }
 
-    // Helper method to parse days from frequency string
     private ArrayList<String> parseDaysFromFrequency(String daysFrequency) {
         ArrayList<String> days = new ArrayList<>();
-        // Remove brackets and split by comma
+
         String cleaned = daysFrequency.replace("[", "").replace("]", "");
         String[] dayArray = cleaned.split(", ");
         for (String day : dayArray) {
@@ -88,10 +87,9 @@ public class RescheduleAlarmsService extends IntentService {
         return days;
     }
 
-    // Helper method to parse times from selection string
     private ArrayList<String> parseTimesFromSelection(String timeSelection) {
         ArrayList<String> times = new ArrayList<>();
-        // Remove brackets and split by comma
+
         String cleaned = timeSelection.replace("[", "").replace("]", "");
         String[] timeArray = cleaned.split(", ");
         for (String time : timeArray) {
@@ -128,7 +126,6 @@ public class RescheduleAlarmsService extends IntentService {
             alarmTime.set(Calendar.SECOND, 0);
             alarmTime.set(Calendar.MILLISECOND, 0);
 
-            // If time is in past, schedule for next week
             if (alarmTime.before(Calendar.getInstance())) {
                 alarmTime.add(Calendar.DAY_OF_YEAR, 7);
             }

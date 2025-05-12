@@ -82,16 +82,6 @@
             android:padding="8dp">
 
             <ImageButton
-                android:id="@+id/btn_edit"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="@string/edit_medicine"
-                android:padding="4dp"
-                android:src="@drawable/ic_edit"
-                tools:ignore="TouchTargetSizeCheck" />
-
-            <ImageButton
                 android:id="@+id/btn_delete"
                 android:layout_width="50dp"
                 android:layout_height="50dp"

@@ -8,17 +8,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.NotificationCompat;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
 import java.util.List;
 
 public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.MedicineViewHolder> {
@@ -34,7 +33,6 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.Medici
                 .child("users")
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .child("medicines");
-
         createNotificationChannel();
     }
 
@@ -48,13 +46,19 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.Medici
 
     @Override
     public void onBindViewHolder(@NonNull MedicineViewHolder holder, int position) {
+        if (position < 0 || position >= medicineList.size()) {
+            return;
+        }
+
         Medicine medicine = medicineList.get(position);
         medicine.setId(medicineList.get(position).getId());
+
         holder.nameTextView.setText(medicine.getName());
         holder.countTextView.setText("Count: " + medicine.getCount());
         holder.timeTextView.setText("Time: " + medicine.getTimeSelection());
         holder.typeTextView.setText("Type: " + medicine.getType());
         holder.dosageTextView.setText("Dosage: " + medicine.getDosage());
+
 
         int lowStockThreshold = Integer.parseInt(medicine.getLowStockReminder());
         if (medicine.getCount() <= lowStockThreshold) {
@@ -73,11 +77,9 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.Medici
                     int newCount = medicine.getCount() - dosage;
 
                     if (newCount >= 0) {
-
                         databaseReference.child(medicine.getId()).child("count")
                                 .setValue(newCount)
                                 .addOnSuccessListener(aVoid -> {
-
                                     medicine.setCount(newCount);
                                     notifyItemChanged(position);
 
@@ -96,6 +98,16 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.Medici
                 }
             }
         });
+        holder.btnDelete.setOnClickListener(v -> {
+            new AlertDialog.Builder(context)
+                    .setTitle("Delete Medicine")
+                    .setMessage("Are you sure you want to delete " + medicine.getName() + "?")
+                    .setPositiveButton("Delete", (dialog, which) -> {
+                        deleteMedicineFromFirebase(medicine.getId(), position);
+                    })
+                    .setNegativeButton("Cancel", null)
+                    .show();
+        });
     }
 
     @Override
@@ -103,6 +115,20 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.Medici
         return medicineList.size();
     }
 
+    private void deleteMedicineFromFirebase(String medicineId, int position) {
+        databaseReference.child(medicineId).removeValue()
+                .addOnSuccessListener(aVoid -> {
+                    if (position >= 0 && position < medicineList.size()) {
+                        medicineList.remove(position);
+                        notifyItemRemoved(position);
+                        notifyItemRangeChanged(position, medicineList.size());
+                        Toast.makeText(context, "Medicine deleted!", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(context, "Failed to delete: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+    }
     private void createNotificationChannel() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(
@@ -111,12 +137,10 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.Medici
                     NotificationManager.IMPORTANCE_HIGH
             );
             channel.setDescription("Alerts when medicine stock is low");
-
             NotificationManager manager = context.getSystemService(NotificationManager.class);
             manager.createNotificationChannel(channel);
         }
     }
-
     private void showLowStockNotification(String medicineName) {
         Notification notification = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_pill)
@@ -133,6 +157,7 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.Medici
         TextView nameTextView, countTextView, timeTextView,
                 typeTextView, dosageTextView, lowStockWarningTextView;
         CheckBox checkbox;
+        ImageButton btnDelete;
 
         public MedicineViewHolder(View itemView) {
             super(itemView);
@@ -143,6 +168,7 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.Medici
             dosageTextView = itemView.findViewById(R.id.medicine_dosage);
             lowStockWarningTextView = itemView.findViewById(R.id.medicine_low_stock_warning);
             checkbox = itemView.findViewById(R.id.medicine_checkbox);
+            btnDelete = itemView.findViewById(R.id.btn_delete);
         }
     }
 }

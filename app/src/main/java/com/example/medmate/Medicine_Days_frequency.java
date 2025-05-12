@@ -26,7 +26,6 @@ public class Medicine_Days_frequency extends AppCompatActivity {
             return;
         }
 
-        // Initialize all day toggle buttons
         ToggleButton sundayToggle = findViewById(R.id.sundayToggleButton);
         ToggleButton mondayToggle = findViewById(R.id.mondayToggleButton);
         ToggleButton tuesdayToggle = findViewById(R.id.tuesdayToggleButton);

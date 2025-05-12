@@ -23,7 +23,6 @@
         android:minHeight="48dp"
         android:textColor="#063970" />
 
-    <!-- Expiry Date -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -47,17 +46,35 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Reminder Days (Before Expiry)"
+        android:text="Remind Before Expiry (Days)"
         android:layout_marginTop="16dp"
         android:textColor="#063970"
-        android:textSize="36sp"
+        android:textSize="24sp"
         android:gravity="center"/>
 
     <EditText
-        android:id="@+id/edit_reminder_days"
+        android:id="@+id/edit_start_reminder_days"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="e.g., 7"
+        android:hint="e.g., 14"
+        android:inputType="number"
+        android:minHeight="48dp"
+        android:textColor="#063970" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Reminder Interval (Days)"
+        android:layout_marginTop="16dp"
+        android:textColor="#063970"
+        android:textSize="24sp"
+        android:gravity="center"/>
+
+    <EditText
+        android:id="@+id/edit_reminder_interval"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="e.g., 5"
         android:inputType="number"
         android:minHeight="48dp"
         android:textColor="#063970" />

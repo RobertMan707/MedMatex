@@ -29,6 +29,13 @@ public class medicine_dosage_selection extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
 
+    private String medicineName;
+    private String medicineType;
+    private int frequency;
+    private ArrayList<String> selectedTimes;
+    private double amount;
+    private ArrayList<String> selectedDays;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,28 +52,28 @@ public class medicine_dosage_selection extends AppCompatActivity {
 
         // Get intent data
         Intent intent = getIntent();
-        String medicineName = intent.getStringExtra("MEDICINE_NAME");
-        String medicineType = intent.getStringExtra("SELECTED_MEDICINE_TYPE");
-        int frequency = intent.getIntExtra("SELECTED_FREQUENCY", 1);
-        ArrayList<String> selectedTimes = intent.getStringArrayListExtra("SELECTED_TIMES");
-        double amount = intent.getDoubleExtra("MEDICINE_AMOUNT", 0);
-        ArrayList<String> selectedDays = intent.getStringArrayListExtra("SELECTED_DAYS");
+        medicineName = intent.getStringExtra("MEDICINE_NAME");
+        medicineType = intent.getStringExtra("SELECTED_MEDICINE_TYPE");
+        frequency = intent.getIntExtra("SELECTED_FREQUENCY", 1);
+        selectedTimes = intent.getStringArrayListExtra("SELECTED_TIMES");
+        amount = intent.getDoubleExtra("MEDICINE_AMOUNT", 0);
+        selectedDays = intent.getStringArrayListExtra("SELECTED_DAYS");
 
         Log.d(TAG, "Medicine: " + medicineName + ", Days: " + selectedDays);
 
         btnSaveDosage.setOnClickListener(v -> {
-            // Check exact alarm permission before proceeding
-            if (!AlarmPermissionHelper.hasExactAlarmPermission(this)) {
-                AlarmPermissionHelper.showPermissionRationale(this);
-                return;
+            // Check exact alarm permission and request if needed
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S &&
+                    !AlarmPermissionHelper.hasExactAlarmPermission(this)) {
+                AlarmPermissionHelper.requestExactAlarmPermission(this);
+                // We'll proceed in onActivityResult if permission is granted
+            } else {
+                saveMedicine();
             }
-            saveMedicine(medicineName, medicineType, frequency, selectedTimes, amount, selectedDays);
         });
     }
 
-    private void saveMedicine(String medicineName, String medicineType, int frequency,
-                              ArrayList<String> selectedTimes, double amount,
-                              ArrayList<String> selectedDays) {
+    private void saveMedicine() {
         // Validate input fields
         String dosage = editTextDosage.getText().toString().trim();
         String lowStock = editTextLowStock.getText().toString().trim();
@@ -116,13 +123,12 @@ public class medicine_dosage_selection extends AppCompatActivity {
                         if (scheduleAllAlarms(medicineName, selectedDays, selectedTimes)) {
                             Toast.makeText(this, "Medicine saved with reminders!",
                                     Toast.LENGTH_SHORT).show();
-                            goToHome();
                         } else {
-                            // Delete the medicine if alarm scheduling fails
-                            userMedicinesRef.child(medicineId).removeValue();
-                            Toast.makeText(this, "Failed to schedule reminders",
+                            Toast.makeText(this, "Some reminders might not be scheduled",
                                     Toast.LENGTH_SHORT).show();
+                            Log.w(TAG, "Failed to schedule all reminders for " + medicineName);
                         }
+                        goToHome();
                     })
                     .addOnFailureListener(e -> {
                         Toast.makeText(this, "Save failed: " + e.getMessage(),
@@ -150,6 +156,7 @@ public class medicine_dosage_selection extends AppCompatActivity {
             for (String time : selectedTimes) {
                 if (!scheduleSingleAlarm(alarmManager, medicineName, dayOfWeek, time)) {
                     allAlarmsSet = false;
+                    Log.w(TAG, "Failed to schedule alarm for " + medicineName + " on " + day + " at " + time);
                 }
             }
         }
@@ -252,8 +259,12 @@ public class medicine_dosage_selection extends AppCompatActivity {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
                 if (alarmManager != null && alarmManager.canScheduleExactAlarms()) {
-                    btnSaveDosage.performClick();
+                    saveMedicine(); // Proceed with saving and scheduling after permission is granted
+                } else {
+                    Toast.makeText(this, "Exact alarm permission was not granted. Reminders might not be reliable.", Toast.LENGTH_LONG).show();
                 }
+            } else {
+                saveMedicine(); // On older devices, proceed directly
             }
         }
     }
