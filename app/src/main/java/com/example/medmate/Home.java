@@ -91,7 +91,6 @@ public class Home extends AppCompatActivity {
                     .child("medicines");
         } else {
             Log.e(TAG, "User not authenticated");
-            // Redirect to login if user is not authenticated
             startActivity(new Intent(this, Login.class));
             finish();
         }

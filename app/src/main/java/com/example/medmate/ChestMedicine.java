@@ -5,6 +5,7 @@ public class ChestMedicine {
     private String name;
     private String expiry_date;
     private String reminder_days;
+    private String key; // Add this field
 
     public ChestMedicine() {}
 
@@ -19,4 +20,12 @@ public class ChestMedicine {
     public String getName() { return name; }
     public String getExpiry_date() { return expiry_date; }
     public String getReminder_days() { return reminder_days; }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
 }

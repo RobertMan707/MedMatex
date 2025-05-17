@@ -16,7 +16,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class AddMedicineActivity extends AppCompatActivity {
 
@@ -24,6 +28,7 @@ public class AddMedicineActivity extends AppCompatActivity {
     private DatabaseReference database;
     private String chestId;
     private static final int EXACT_ALARM_PERMISSION_REQUEST = 201;
+    private static final String TAG = "AddMedicineActivity";
 
     private String medicineNameToSave;
     private String expiryDateToSave;
@@ -132,20 +137,66 @@ public class AddMedicineActivity extends AppCompatActivity {
 
         database.child(medID).setValue(medicine)
                 .addOnSuccessListener(aVoid -> {
-                    NotificationHelper.scheduleRecurringExpiryReminder(
-                            this,
-                            medID,
-                            medicineNameToSave,
-                            expiryDateToSave,
-                            startReminderDaysInput,
-                            Integer.parseInt(reminderIntervalInput)
-                    );
+                    scheduleExpiryReminder(medID); // Call the method to schedule
                     Toast.makeText(this, "Medicine saved with expiry reminders!", Toast.LENGTH_SHORT).show();
                     finish();
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
+    }
+
+    private void scheduleExpiryReminder(String medId) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            Date expiryDate = sdf.parse(expiryDateToSave);
+            if (expiryDate == null) {
+                Log.e(TAG, "Failed to parse expiry date");
+                return; // Handle the error: the date was not parsed correctly
+            }
+
+            int daysBefore = Integer.parseInt(startReminderDaysInput);
+            long reminderTime = expiryDate.getTime() - (daysBefore * 24 * 60 * 60 * 1000L);
+
+            if (reminderTime <= System.currentTimeMillis()) {
+                Toast.makeText(this, "Reminder time is in the past!", Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "Reminder time is in the past");
+                return;
+            }
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            if (alarmManager == null) {
+                Log.e(TAG, "AlarmManager is null");
+                return; // Handle the error: AlarmManager not available
+            }
+
+            Intent intent = new Intent(this, ReminderReceiver.class);
+            intent.putExtra("type", "medicine_expiry");
+            intent.putExtra("MEDICINE_NAME", medicineNameToSave);
+            intent.putExtra("NOTIFICATION_ID", medId.hashCode()); // Use medId.hashCode()
+            intent.putExtra("daysBefore", daysBefore);
+
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                    this,
+                    medId.hashCode(),  // Use medId.hashCode()
+                    intent,
+                    PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+            );
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, reminderTime, pendingIntent);
+            } else {
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, reminderTime, pendingIntent);
+            }
+
+            Log.d(TAG, "Expiry reminder set for " + expiryDateToSave + ", " + daysBefore + " days before. Alarm time: " + new Date(reminderTime));
+
+        } catch (ParseException e) {
+            Log.e(TAG, "Error parsing date: " + e.getMessage());
+            Toast.makeText(this, "Error parsing expiry date!", Toast.LENGTH_SHORT).show();
+        } catch (NumberFormatException e) {
+            Log.e(TAG, "Error parsing number: " + e.getMessage());
+            Toast.makeText(this, "Error parsing reminder days!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
