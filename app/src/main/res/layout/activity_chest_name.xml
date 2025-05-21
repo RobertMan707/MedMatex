@@ -10,7 +10,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Write your medicine name🧰🧰"
+        android:text="Write your medicine name🧰"
         android:textColor="#063970"
         android:textSize="36sp"
         android:gravity="center"

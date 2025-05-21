@@ -68,8 +68,13 @@ public class Profile extends AppCompatActivity {
             } else if (itemId == R.id.nav_chest) {
                 startActivity(new Intent(Profile.this, ChestActivity.class));
                 return true;
-            } else if (itemId == R.id.nav_profile) {
-                // Already on profile
+            }else if (itemId == R.id.nav_chat) {
+                startActivity(new Intent(Profile.this, ChatActivity.class));
+                overridePendingTransition(0, 0);
+                finish();
+                return true;}
+            else if (itemId == R.id.nav_profile) {
+
                 return true;
             }
             return false;

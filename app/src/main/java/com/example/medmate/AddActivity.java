@@ -39,7 +39,13 @@ public class AddActivity extends AppCompatActivity {
                     startActivity(new Intent(AddActivity.this, ChestActivity.class));
                     overridePendingTransition(0, 0);
                     return true;
-                } else if (itemId == R.id.nav_profile) {
+                }
+                else if (itemId == R.id.nav_chat) {
+                    startActivity(new Intent(AddActivity.this, ChatActivity.class));
+                    overridePendingTransition(0, 0);
+                    finish();
+                    return true;}
+                    else if (itemId == R.id.nav_profile) {
                     startActivity(new Intent(AddActivity.this, Profile.class));
                     overridePendingTransition(0, 0);
                     return true;

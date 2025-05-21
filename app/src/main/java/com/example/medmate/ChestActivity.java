@@ -79,6 +79,8 @@ public class ChestActivity extends AppCompatActivity {
             startActivity(new Intent(this, AddActivity.class));
         } else if (itemId == R.id.nav_profile) {
             startActivity(new Intent(this, Profile.class));
+        }else if (itemId == R.id.nav_chat) {
+            startActivity(new Intent(ChestActivity.this, ChatActivity.class));
         }
         overridePendingTransition(0, 0);
         return true;

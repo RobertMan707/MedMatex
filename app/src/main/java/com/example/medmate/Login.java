@@ -38,11 +38,9 @@ public class Login extends AppCompatActivity {
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
-        // Initialize views
         mail = findViewById(R.id.mail);
         password = findViewById(R.id.password);
 
-        // Debug: Check if password is initialized
         if (password == null) {
             Log.e("LoginDebug", "Password field is not initialized!");
         } else {
