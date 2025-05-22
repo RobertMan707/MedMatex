@@ -1,7 +1,9 @@
+// ChatActivity.java
 package com.example.medmate;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +30,8 @@ public class ChatActivity extends AppCompatActivity {
     private ChatAdapter chatAdapter;
     private List<ChatMessage> messageList = new ArrayList<>();
     private BottomNavigationView bottomNav;
+
+    private static final String GEMINI_API_KEY = "AIzaSyAC1AY-8PaorKscv_es8wyQmojrGU2RwIY";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,11 +52,11 @@ public class ChatActivity extends AppCompatActivity {
         sendButton.setOnClickListener(v -> {
             String userMessage = messageInput.getText().toString().trim();
             if (!userMessage.isEmpty()) {
-
                 messageList.add(new ChatMessage(userMessage, true));
                 chatAdapter.notifyItemInserted(messageList.size() - 1);
                 chatRecyclerView.scrollToPosition(messageList.size() - 1);
                 messageInput.setText("");
+
                 getGeminiResponse(userMessage, response -> {
                     messageList.add(new ChatMessage(response, false));
                     chatAdapter.notifyItemInserted(messageList.size() - 1);
@@ -93,7 +98,6 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void getGeminiResponse(String message, GeminiCallback callback) {
-
         GeminiRequest.Part part = new GeminiRequest.Part(message);
         List<GeminiRequest.Part> parts = new ArrayList<>();
         parts.add(part);
@@ -104,41 +108,51 @@ public class ChatActivity extends AppCompatActivity {
 
         GeminiRequest request = new GeminiRequest(contents);
 
-        String modelName = "models/chat-bison-001";
 
-        // Вот здесь — строка API ключа в кавычках:
-        String apiKey = "AIzaSyBQ7671BCKUjpimGvhi0g-Hh4lbIazhOBI";
-        String bearerToken = "Bearer " + apiKey;
 
-        GeminiApiClient.getService().generateContent(modelName, request, bearerToken)
-                .enqueue(new retrofit2.Callback<GeminiResponse>() {
+        GeminiApiClient.getService()
+                .generateContent(
+                        "gemini-2.0-flash",
+                        GEMINI_API_KEY,
+                        request
+                )
+                .enqueue(new Callback<GeminiResponse>() {
                     @Override
                     public void onResponse(Call<GeminiResponse> call, Response<GeminiResponse> response) {
-                        if (response.isSuccessful() && response.body() != null &&
-                                !response.body().candidates.isEmpty() &&
-                                !response.body().candidates.get(0).content.parts.isEmpty()) {
-
-                            String reply = response.body().candidates.get(0).content.parts.get(0).text;
-                            callback.onResponse(reply);
-
+                        if (response.isSuccessful() && response.body() != null) {
+                            try {
+                                String reply = response.body().candidates.get(0).content.parts.get(0).text;
+                                callback.onResponse(reply);
+                            } catch (Exception e) {
+                                callback.onResponse("Error parsing response");
+                                Log.e("API_ERROR", "Parsing error: " + e.getMessage());
+                            }
                         } else {
-                            callback.onResponse("Sorry, I couldn't understand that.");
+                            String errorBody = "";
+                            try {
+                                if (response.errorBody() != null) {
+                                    errorBody = response.errorBody().string();
+                                }
+                            } catch (Exception e) {
+                                Log.e("API_ERROR", "Error reading error body: " + e.getMessage());
+                            }
+                            callback.onResponse("API Error: " + response.code() + " " + response.message());
+                            Log.e("API_ERROR", "Code: " + response.code() + " Message: " + response.message() + " Error Body: " + errorBody);
                         }
                     }
 
                     @Override
                     public void onFailure(Call<GeminiResponse> call, Throwable t) {
-                        callback.onResponse("Error: " + t.getMessage());
+                        callback.onResponse("Network Error: " + t.getMessage());
+                        Log.e("NETWORK_ERROR", t.getMessage(), t);
                     }
                 });
     }
 
 
-
-    // Data class for chat messages
     private static class ChatMessage {
-        private String text;
-        private boolean isUser;
+        private final String text;
+        private final boolean isUser;
 
         public ChatMessage(String text, boolean isUser) {
             this.text = text;
@@ -155,7 +169,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private static class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder> {
-        private List<ChatMessage> messages;
+        private final List<ChatMessage> messages;
 
         public ChatAdapter(List<ChatMessage> messages) {
             this.messages = messages;
@@ -173,7 +187,6 @@ public class ChatActivity extends AppCompatActivity {
         public void onBindViewHolder(@NonNull ChatViewHolder holder, int position) {
             ChatMessage message = messages.get(position);
             holder.messageText.setText(message.getText());
-
         }
 
         @Override

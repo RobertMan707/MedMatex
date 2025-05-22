@@ -4,7 +4,6 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class GeminiResponse {
-
     @SerializedName("candidates")
     public List<Candidate> candidates;
 
