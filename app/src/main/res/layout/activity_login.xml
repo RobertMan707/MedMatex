@@ -1,17 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/main_login_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ccecee"
-    android:orientation="vertical"
-    android:padding="20dp"
     tools:context=".Login">
 
-    <ImageView
+    <ImageButton
+        android:id="@+id/language_flag_button"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="16dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:scaleType="fitCenter"
+        android:padding="8dp"
+        android:src="@drawable/ic_flag_armenia" android:contentDescription="@string/language_flag_description" />
+
+    <LinearLayout
+        android:id="@+id/login_content_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:layout_below="@id/language_flag_button" android:layout_marginTop="-40dp">
+        <ImageView
         android:id="@+id/logo_image"
         android:layout_width="150dp"
         android:layout_height="150dp"
@@ -19,55 +36,55 @@
         android:src="@drawable/mymed"
         android:elevation="100dp"/>
 
-    <TextView
-        android:id="@+id/logo_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/bungee"
-        android:text="Welcome back"
-        android:transitionName="logo_text"
-        android:textColor="@color/black"
-        android:textSize="40sp"
-        android:gravity="center" />
+        <TextView
+            android:id="@+id/logo_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/bungee"
+            android:text="@string/welcome_text"
+            android:transitionName="logo_text"
+            android:textColor="@color/black"
+            android:textSize="40sp"
+            android:gravity="center" />
 
-    <TextView
-        android:id="@+id/slogan_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Sign in"
-        android:textSize="18sp"
-        android:transitionName="signInText"
-        android:layout_marginTop="10dp" />
+        <TextView
+            android:id="@+id/slogan_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Sign_in_text"
+            android:textSize="18sp"
+            android:transitionName="signInText"
+            android:layout_marginTop="10dp" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
-        android:orientation="vertical">
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/mail"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Email"
-            android:transitionName="email_tran"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:orientation="vertical">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/mail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textEmailAddress" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:hint="@string/email_hint"
+                android:transitionName="email_tran"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Password"
-            android:transitionName="password_tran"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            app:passwordToggleEnabled="true">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/password_hint"
+                android:transitionName="password_tran"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:passwordToggleEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -82,7 +99,7 @@
                 android:id="@+id/remember_me"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Remember Me"
+                android:text="@string/remember_me_text"
                 android:textColor="@color/black"
                 android:layout_marginTop="10dp"
                 android:layout_alignParentStart="true" />
@@ -92,7 +109,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
-                android:text="Forgot Password?"
+                android:text="@string/forgot_password"
                 android:textColor="@color/black"
                 android:layout_marginTop="10dp"
                 android:layout_alignParentEnd="true" />
@@ -105,7 +122,7 @@
             android:layout_marginVertical="10dp"
             android:backgroundTint="@color/black"
             android:onClick="loginUser"
-            android:text="Sign in"
+            android:text="@string/sign_in_button"
             android:textColor="@color/white"
             android:transitionName="button_tran"
             tools:ignore="OnClick" />
@@ -115,26 +132,28 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/blue"
-            android:text="Sign In With Google"
+            android:text="@string/google_auth"
             android:textColor="@color/white"
             android:transitionName="login_signup_tran"/>
 
+            <Button
+                android:id="@+id/login_signup_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp"
+                android:background="?attr/selectableItemBackground"
+                android:minHeight="48dp"
+                android:text="@string/login_signup_button"
+                android:textColor="@color/black"
+                android:transitionName="login_signup_tran" />
         <Button
-            android:layout_marginVertical="10dp"
-            android:id="@+id/login_signup_button"
+            android:id="@+id/TestLoginButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
-            android:text="New User? SIGN UP"
-            android:textColor="@color/black"
-            android:transitionName="login_signup_tran"/>
-
-        <Button
-            android:id="@+id/guestLoginButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
-            android:text="Continue as Guest"
+            android:text="@string/Test_user"
             android:textColor="@color/black"/>
+
     </LinearLayout>
 </LinearLayout>
+    </RelativeLayout>

@@ -9,7 +9,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Enter Dosage Amount🧪"
+        android:text="@string/medicine_dosage"
         android:layout_gravity="center"
         android:textSize="32sp"
         android:fontFamily="@font/playfair_display_bold"
@@ -21,14 +21,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:digits="0123456789."
-        android:hint="Enter dosage (e.g., 2.5)"
+        android:hint="@string/enter_dosage_hint"
         android:inputType="number"
         android:minHeight="48dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Remind me when stock is low at:"
+        android:text="@string/low_stock_text"
         android:textSize="30sp"
         android:fontFamily="@font/playfair_display_bold"
         android:layout_gravity="center"
@@ -39,7 +39,7 @@
         android:id="@+id/editTextLowStock"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="e.g., 5 doses left"
+        android:hint="@string/enter_dosage"
         android:inputType="number"
         android:minHeight="48dp" />
 
@@ -47,7 +47,7 @@
         android:id="@+id/btnSaveDosage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Save &amp; Finish"
+        android:text="@string/save_and_finish"
         android:layout_marginTop="20dp"
         android:textColor="@color/black"
         android:backgroundTint="#0000"

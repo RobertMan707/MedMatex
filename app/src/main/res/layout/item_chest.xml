@@ -9,61 +9,74 @@
     app:cardCornerRadius="8dp"
     app:cardElevation="4dp">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp"
-        android:background="#96dce4">
+        android:background="#96dce4"
+        android:padding="10dp">
 
-        <TextView
+        <ImageButton
+            android:id="@+id/btn_delete_chest"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_delete_"
+            android:contentDescription="@string/delete_chest_button_description"
+            android:padding="5dp"
+            android:scaleType="fitCenter"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_toStartOf="@id/btn_delete_chest"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="4dp"> <TextView
             android:id="@+id/tv_chest_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#063970"
             android:textSize="18sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            tools:text="My Home Chest"/>
 
-        <TextView
-            android:id="@+id/tv_chest_size"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:textColor="#09a5a0"
-            android:textSize="14sp"/>
+            <TextView
+                android:id="@+id/tv_chest_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textColor="#09a5a0"
+                android:textSize="14sp"
+                tools:text="Size: Large"/>
 
-        <!-- Action Buttons Row -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:padding="8dp"
-            tools:ignore="ExtraText">
-
-            <Button
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+                <Button
                 android:id="@+id/btn_add_medicine"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Add"
+                android:text="@string/add_button"
                 android:drawableLeft="@drawable/baseline_add_24"
                 android:textColor="@color/black"
-                android:textSize="24sp"
-            android:drawablePadding="8dp"
-            android:backgroundTint="#7cfaed"/>
-
-            <Button
+                android:textSize="14sp" android:drawablePadding="8dp"
+                android:backgroundTint="#7cfaed"
+                android:layout_marginEnd="8dp"/>
+                <Button
                 android:id="@+id/btn_show_medicines"
-
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:text="View"
-                android:textSize="24sp"
-                android:textColor="@color/black"
-            android:drawablePadding="8dp"
-            android:backgroundTint="#7cfaed"/>
+                android:text="@string/view_button"
+                android:textSize="14sp" android:textColor="@color/black"
+                android:drawablePadding="8dp"
+                android:backgroundTint="#7cfaed"/>
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+    </RelativeLayout>
 </androidx.cardview.widget.CardView>

@@ -10,7 +10,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Write your medicine name🧰"
+        android:text="@string/chest_name"
         android:textColor="#063970"
         android:textSize="36sp"
         android:gravity="center"
@@ -32,7 +32,7 @@
         android:id="@+id/btnNext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Next"
+        android:text="@string/next_button"
         android:layout_marginTop="30dp"
         android:backgroundTint="#0000"
         android:textColor="@color/black"

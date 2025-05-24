@@ -1,8 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#ccecee">
+
+
 
 
     <LinearLayout
@@ -13,35 +16,46 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            android:padding="20dp"
-            android:background="#96dce4">
+            android:background="#96dce4"
+            android:padding="5dp">
 
+            <ImageButton
+                android:id="@+id/language_flag_button_profile"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="16dp"
+                android:contentDescription="@string/language_flag_description"
+                android:padding="8dp"
+                android:backgroundTint="#ccecee"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_flag_armenia" />
             <ImageView
                 android:id="@+id/profile_image"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:src="@drawable/user"
-                android:layout_centerVertical="true"/>
+                android:layout_centerVertical="true"
+                android:src="@drawable/user" />
 
             <TextView
                 android:id="@+id/full_name_field"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:fontFamily="@font/nunito"
-                android:layout_toRightOf="@+id/profile_image"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"/>
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/profile_image"
+                android:fontFamily="@font/nunito"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:fontFamily="@font/antic"
-                android:layout_toRightOf="@+id/profile_image"
                 android:layout_below="@id/full_name_field"
-                android:layout_marginLeft="40dp"/>
+                android:layout_marginLeft="40dp"
+                android:layout_toRightOf="@+id/profile_image"
+                android:fontFamily="@font/antic"
+                android:textSize="14sp" />
         </RelativeLayout>
 
         <LinearLayout
@@ -84,7 +98,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/nunito"
-                        android:text="medicines"
+                        android:text="@string/medicines"
                         android:textSize="14sp"
                         android:layout_below="@+id/medicine_balance"
                         android:layout_centerHorizontal="true"/>
@@ -125,7 +139,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/nunito"
-                        android:text="chests"
+                        android:text="@string/chests"
                         android:textSize="14sp"
                         android:layout_below="@+id/chest_count"
                         android:layout_centerHorizontal="true"/>
@@ -143,7 +157,7 @@
                 android:id="@+id/username_profile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Username"
+                android:hint="@string/username_hint"
                 android:layout_marginBottom="10dp">
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -156,7 +170,7 @@
                 android:id="@+id/profile_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Email"
+                android:hint="@string/email_hint"
                 android:layout_marginBottom="10dp">
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -168,7 +182,7 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="UPDATE"
+                android:text="@string/update_button"
                 android:textColor="@color/black"
                 android:textSize="15sp"
                 android:fontFamily="@font/bungee"

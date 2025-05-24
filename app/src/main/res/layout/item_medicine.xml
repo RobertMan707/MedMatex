@@ -32,28 +32,28 @@
                 android:id="@+id/medicine_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Count: 0"
+                android:text="@string/medicine_amount"
                 android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/medicine_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Time: 8:00 AM"
+                android:text="@string/medicine_time"
                 android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/medicine_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Type: Liquid"
+                android:text="@string/type"
                 android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/medicine_dosage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Dosage: 10 mg"
+                android:text="@string/dosage"
                 android:textSize="14sp" />
 
             <TextView
@@ -69,7 +69,7 @@
                 android:id="@+id/medicine_checkbox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Taken"
+                android:text="@string/taken"
                 android:textSize="16sp"
                 android:layout_marginTop="4dp" />
         </LinearLayout>

@@ -40,9 +40,10 @@ public class ChestSizeActivity extends AppCompatActivity {
     }
 
     private String getSizeFromSelection(int selectedId) {
-        if (selectedId == R.id.radioSmall) return "10";
-        if (selectedId == R.id.radioMedium) return "30";
-        return "50";
+        if (selectedId == R.id.radioSmall) return "30";
+        if (selectedId == R.id.radioMedium) return "60";
+        if(selectedId == R.id.radioLarge) return "100";
+        return "Unlimited";
     }
 
     private void createChest(String name, String size) {
@@ -56,7 +57,6 @@ public class ChestSizeActivity extends AppCompatActivity {
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(this, "Chest created!", Toast.LENGTH_SHORT).show();
 
-                    // Go directly to ChestActivity and clear back stack
                     Intent intent = new Intent(this, ChestActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);

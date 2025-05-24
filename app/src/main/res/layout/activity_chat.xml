@@ -33,7 +33,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="Ask about your meds..."
+            android:hint="@string/ask_hint"
             android:imeOptions="actionSend"
             android:inputType="text"
             android:minHeight="48dp" />
@@ -45,7 +45,7 @@
             android:backgroundTint="#96dce4"
             android:textSize="30dp"
             android:textColor="@color/black"
-            android:text="Send"/>
+            android:text="@string/send_button"/>
     </LinearLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

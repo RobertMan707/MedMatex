@@ -17,7 +17,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Select Chest Size🤏"
+        android:text="@string/chest_size"
         android:layout_gravity="center"
         android:textColor="#063970"
         android:textSize="36sp"
@@ -35,7 +35,7 @@
             android:id="@+id/radioSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Small (30 medicines)"
+            android:text="@string/small_chest"
             android:textColor="#063970"
             android:textSize="20sp"/>
 
@@ -43,7 +43,7 @@
             android:id="@+id/radioMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Medium (60 medicines)"
+            android:text="@string/medium_chest"
             android:textColor="#063970"
             android:textSize="20sp"/>
 
@@ -51,14 +51,14 @@
             android:id="@+id/radioLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Large (100 medicines)"
+            android:text="@string/large_chest"
             android:textColor="#063970"
             android:textSize="20sp"/>
         <RadioButton
             android:id="@+id/radioUnlimited"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Unlimited medicines"
+            android:text="@string/unlimited_medicines"
             android:textColor="#063970"
             android:textSize="20sp"/>
     </RadioGroup>

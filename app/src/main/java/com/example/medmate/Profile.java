@@ -1,8 +1,10 @@
 package com.example.medmate;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageButton; // Changed from ImageView
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,42 +21,61 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Locale;
+
 public class Profile extends AppCompatActivity {
 
-    // UI Elements
     private TextInputLayout userName, email;
     private TextView fullNameLabel;
     private BottomNavigationView bottomNav;
+    private ImageButton languageFlagButton;
 
-    // Firebase
     private DatabaseReference userRef;
     private FirebaseAuth mAuth;
     private ProgressDialog progressDialog;
+
+    private String[] languages = {"en", "hy", "ru"};
+    private int currentLanguageIndex = 0;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        String currentLang = LocaleHelper.getLanguage(newBase);
+        super.attachBaseContext(LocaleHelper.setLocale(newBase, currentLang));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        // Initialize Firebase
+        String savedLang = LocaleHelper.getLanguage(this);
+        for (int i = 0; i < languages.length; i++) {
+            if (languages[i].equals(savedLang)) {
+                currentLanguageIndex = i;
+                break;
+            }
+        }
+
         mAuth = FirebaseAuth.getInstance();
         userRef = FirebaseDatabase.getInstance().getReference("users");
 
-        // Initialize Views
         userName = findViewById(R.id.username_profile);
         email = findViewById(R.id.profile_email);
         fullNameLabel = findViewById(R.id.full_name_field);
         bottomNav = findViewById(R.id.nav_menu);
 
-        // Setup Progress Dialog
+        languageFlagButton = findViewById(R.id.language_flag_button_profile); // New ID for profile
+        updateFlagImage();
+
+        languageFlagButton.setOnClickListener(v -> {
+            cycleLanguage();
+        });
+
         progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Loading profile...");
         progressDialog.setCancelable(false);
 
-        // Load user data
         loadUserData();
 
-        // Bottom Navigation Setup
         bottomNav.setSelectedItemId(R.id.nav_profile);
         bottomNav.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
@@ -74,11 +95,50 @@ public class Profile extends AppCompatActivity {
                 finish();
                 return true;}
             else if (itemId == R.id.nav_profile) {
-
                 return true;
             }
             return false;
         });
+    }
+
+    /**
+     * Cycles through the defined languages and updates the app's locale.
+     */
+    private void cycleLanguage() {
+        // Move to the next language in the sequence
+        currentLanguageIndex = (currentLanguageIndex + 1) % languages.length;
+        String nextLangCode = languages[currentLanguageIndex];
+
+        // Apply the new locale
+        LocaleHelper.setLocale(this, nextLangCode);
+
+        // Recreate the activity to apply language changes to all views
+        recreate();
+    }
+
+    /**
+     * Updates the ImageButton's drawable to show the flag of the *next* language.
+     */
+    private void updateFlagImage() {
+        // Determine the language whose flag should be displayed (the one user will switch TO)
+        String displayFlagForLang = languages[(currentLanguageIndex + 1) % languages.length];
+        int flagResId;
+
+        switch (displayFlagForLang) {
+            case "en":
+                flagResId = R.drawable.ic_flag_usa; // Your USA flag drawable resource
+                break;
+            case "hy":
+                flagResId = R.drawable.ic_flag_armenia; // Your Armenian flag drawable resource
+                break;
+            case "ru":
+                flagResId = R.drawable.ic_flag_russia; // Your Russian flag drawable resource
+                break;
+            default:
+                flagResId = R.drawable.ic_flag_usa; // Fallback to USA flag
+                break;
+        }
+        languageFlagButton.setImageResource(flagResId);
     }
 
     private void loadUserData() {
@@ -95,7 +155,6 @@ public class Profile extends AppCompatActivity {
                     UserHelperClass user = snapshot.getValue(UserHelperClass.class);
 
                     if (user != null) {
-                        // Update all UI fields
                         fullNameLabel.setText(user.getName());
                         if (userName.getEditText() != null) {
                             userName.getEditText().setText(user.getUsername());
@@ -110,21 +169,21 @@ public class Profile extends AppCompatActivity {
                 public void onCancelled(@NonNull DatabaseError error) {
                     progressDialog.dismiss();
                     Toast.makeText(Profile.this,
-                            "Failed to load profile: " + error.getMessage(),
+                            "Failed to load user data: " + error.getMessage(),
                             Toast.LENGTH_SHORT).show();
                 }
             });
         } else {
             progressDialog.dismiss();
-            Toast.makeText(this, "Not logged in!", Toast.LENGTH_SHORT).show();
-            finish(); // Close profile if not logged in
+            Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show();
+            finish();
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        // Refresh data when returning to this activity
         loadUserData();
+        updateFlagImage();
     }
 }

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MedMate</string>
+    <string name="welcome_back_text">Բարի վերադարձ</string>
+    <string name="Sign_in_text">Մուտք գործել</string>
+    <string name="email_hint">Էլ․ փոստ</string>
+    <string name="password_hint">Գաղտնաբառ</string>
+    <string name="remember_me_text">Հիշիր ինձ</string>
+    <string name="forgot_password">Մոռացե՞լ եք գաղտնաբառը։</string>
+    <string name="sign_in_button">Մուտք գործել</string>
+    <string name="login_signup_button">Նոր օգտատեր? ԳՐԱՆՑՎԵՔ</string>
+    <string name="google_auth">Մուտք գործեք Google-ով</string>
+    <string name="Test_user">Փորձարկող օգտատեր</string>
+    <string name="welcome_text">Բարի գալուստ</string>
+    <string name="sign_up_slogan">Գրանցվեք՝ ձեր ճանապարհորդությունը սկսելու համար</string>
+    <string name="Full_name_hint">Անուն, ազգանուն</string>
+    <string name="username_hint">Օգտատիրոջ անուն</string>
+    <string name="confirm_password_hint">Հաստատել գաղտնաբառը</string>
+    <string name="Sign_up_button">Գրանցվել</string>
+    <string name="already_have_account">Արդեն ունե՞ք հաշիվ։ Մուտք գործեք</string>
+    <string name="medicines">Դեղեր</string>
+    <string name="chests">Դեղատուփեր</string>
+    <string name="update_button">ԹԱՐՄԱՑՆԵԼ</string>
+    <string name="add_text">Սեղմեք կոճակը՝ նոր դեղամիջոցներ ավելացնելու համար։</string>
+    <string name="add_button">Ավելացնել</string>
+    <string name="medicine_name">Դեղամիջոցի անվանումը</string>
+    <string name="expiry_date">Ժամկետի անցման ամսաթիվ</string>
+    <string name="remind_before_expiry">Հիշեցնել ժամկետի ավարտից առաջ (օրերով)</string>
+    <string name="reminder_interval">Հիշեցման միջակայք (օրերով)</string>
+    <string name="medicine_hint">Օրինակ՝ Պարացետամոլ</string>
+    <string name="save_medicine">Պահպանել դեղամիջոցը</string>
+    <string name="ask_hint">Հարցրեք ձեր դեղերի մասին...</string>
+    <string name="send_button">Ուղարկել</string>
+    <string name="click_to_button">Սեղմեք կոճակը նոր դեղատուփ ավելացնելու համար։</string>
+    <string name="chest_name">Գրեք ձեր դեղատուփի անունը 🧰</string>
+    <string name="next_button">Հաջորդը</string>
+    <string name="language_flag_description">Փոխել լեզուն</string>
+    <string name="chest_size">Ընտրեք դեղատուփի չափը</string>
+    <string name="create_chest">Ստեղծել դեղատուփ</string>
+    <string name="small_chest">Փոքր (30 դեղամիջոց)</string>
+    <string name="medium_chest">Միջին (60 դեղամիջոց)</string>
+    <string name="large_chest">Մեծ (100 դեղամիջոց)</string>
+    <string name="unlimited_medicines">Անսահմանափակ դեղամիջոցներ</string>
+    <string name="enter_amount">Մուտքագրեք քանակը՝</string>
+    <string name="medicine_amount_hint">Մուտքագրեք դեղի քանակը</string>
+    <string name="medicine_days">Ընտրեք օրեր</string>
+    <string name="frequency_text">Ընտրեք հաճախականությունը</string>
+    <string name="times_per_day">Օրական քանի անգամ</string>
+    <string name="Sun_text">Կիր</string>
+    <string name="Mon_text">Երկ</string>
+    <string name="Wed_text">Չոր</string>
+    <string name="Tue_text">Երք</string>
+    <string name="Thu_text">Հինգ</string>
+    <string name="Fri_text">Ուրբ</string>
+    <string name="Sat_text">Շաբ</string>
+    <string name="medicine_dosage">Մուտքագրեք դեղաչափը 🧪</string>
+    <string name="enter_dosage_hint">Մուտքագրեք դեղաչափը</string>
+    <string name="low_stock_text">Հիշեցրեք ինձ, երբ դեղերը լինեն՝</string>
+    <string name="enter_dosage">օրինակ՝ 5 հատ․․․</string>
+    <string name="medicine_name_placeholder">Մուտքագրեք դեղի անվանումը</string>
+    <string name="select_time">Ընտրեք ժամանակը</string>
+    <string name="view_button">Դիտել</string>
+    <string name="medicine_type">Ընտրեք դեղի տեսակը</string>
+    <string name="pill_tablet">Հաբ/Դեղահաբ</string>
+    <string name="capsule">Կապսուլ</string>
+    <string name="liquid_syrup">Հեղուկ/օշարակ</string>
+    <string name="drops_eye_ear_nasal">Կաթիլներ (աչքի/ականջի/քթի)</string>
+    <string name="topical_cream_ointment">Արտաքին (կրեմ/քսուք)</string>
+    <string name="medicine_amount">Քանակը՝ 0</string>
+    <string name="medicine_time">Ժամը՝ 00:00</string>
+    <string name="type">Տեսակը՝</string>
+    <string name="dosage">Դեղաչափը.</string>
+    <string name="taken">Վերցված է</string>
+    <string name="save_and_finish">Պահպանել և ավարտել</string>
+    <string name="edit_medicine">խմբագրել_բժշկությունը</string>
+    <string name="delete_medicine">ջնջել_դեղը</string>
+</resources>

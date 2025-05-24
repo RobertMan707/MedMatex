@@ -1,7 +1,82 @@
 <resources>
     <string name="app_name">MedMate</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="welcome_back_text">Welcome back</string>
+    <string name="Sign_in_text">Sign in</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Password</string>
+    <string name="remember_me_text">Remember me</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="sign_in_button">Sign in</string>
+    <string name="login_signup_button">New User? SIGN UP</string>
+    <string name="google_auth">Sign In With Google</string>
+    <string name="Test_user">Test User</string>
+    <string name="welcome_text">Welcome</string>
+    <string name="sign_up_slogan">Sign up to start your Journey</string>
+    <string name="Full_name_hint">Full Name</string>
+    <string name="username_hint">Username</string>
+    <string name="confirm_password_hint">Confirm Password</string>
+    <string name="Sign_up_button">Sign Up</string>
+    <string name="already_have_account">Already have an account?Log In</string>
+    <string name="medicines">Medicines</string>
+    <string name="chests">Chests</string>
+    <string name="update_button">UPDATE</string>
+    <string name="add_text">Click on Button to Add new Medicines!</string>
+    <string name="add_button">Add</string>
+    <string name="medicine_name">Medicine Name</string>
+    <string name="expiry_date">Expiry Date</string>
+    <string name="remind_before_expiry">Remind Before Expiry (Days)</string>
+    <string name="reminder_interval">Reminder Interval (Days)</string>
+    <string name="medicine_hint">e.g., Paracetamol</string>
+    <string name="save_medicine">Save Medicine</string>
+    <string name="ask_hint">Ask about your meds...</string>
+    <string name="send_button">Send</string>
+    <string name="click_to_button">Click on Button to Add new Chest!</string>
+    <string name="chest_name">Write your medicine chest name🧰</string>
+    <string name="next_button">Next</string>
+    <string name="language_flag_description">Change Language</string>
+    <string name="chest_size">Select Chest Size🤏</string>
+    <string name="create_chest">Create Chest</string>
+    <string name="small_chest">Small (30 medicines)</string>
+    <string name="medium_chest">Medium (60 medicines)</string>
+    <string name="large_chest">Large (100 medicines)</string>
+    <string name="unlimited_medicines">Unlimited Medicines</string>
+    <string name="enter_amount">Enter Amount for:</string>
+    <string name="medicine_amount_hint">Enter Medicine Amount</string>
+    <string name="medicine_days">Select Days📅</string>
+    <string name="frequency_text">Select Frequency</string>
+    <string name="times_per_day">Times per day</string>
+    <string name="Sun_text">Sun</string>
+    <string name="Mon_text">Mon</string>
+    <string name="Wed_text">Wed</string>
+    <string name="Tue_text">Tue</string>
+    <string name="Thu_text">Thu</string>
+    <string name="Fri_text">Fri</string>
+    <string name="Sat_text">Sat</string>
+    <string name="medicine_dosage">Enter Dosage Amount🧪</string>
+    <string name="enter_dosage_hint">Enter Dosage Amount</string>
+    <string name="low_stock_text">Remind me when stock is low at:</string>
+    <string name="enter_dosage">e.g. 5... </string>
+    <string name="medicine_name_placeholder">Enter Medicine Name💊</string>
+    <string name="select_time">Select Time</string>
+    <string name="view_button">View</string>
+    <string name="medicine_type">Select Medicine Type</string>
+    <string name="pill_tablet">Pill/Tablet</string>
+    <string name="capsule">Capsule</string>
+    <string name="liquid_syrup">Liquid/Syrup</string>
+    <string name="drops_eye_ear_nasal">Drops (Eye/Ear/Nasal)</string>
+    <string name="topical_cream_ointment">Topical (Cream/Ointment)</string>
+    <string name="medicine_amount">Amount: 0</string>
+    <string name="medicine_time">Time: 00:00</string>
+    <string name="type">Type: </string>
+    <string name="dosage">Dosage: </string>
+    <string name="taken">Taken</string>
+    <string name="save_and_finish">Save and Finish</string>
     <string name="edit_medicine">edit_medicine</string>
     <string name="delete_medicine">delete_medicine</string>
+    <string name="delete_chest_button_description" translatable="false">delete_chest</string>
+    <string name="chest_capacity_text" translatable="false">Capacity: %s</string>
+    <string name="delete_chest_dialog_title" translatable="false">Delete Chest</string>
+    <string name="delete_chest_dialog_message" translatable="false">Are you sure you want to delete this medicine chest and all its contents?</string>
+    <string name="yes_button" translatable="false">Yes</string>
+    <string name="no_button" translatable="false">No</string>
 </resources>
